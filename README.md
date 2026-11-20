@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏢 Business Plan AI Studio
 
-## Getting Started
+Plateforme SaaS intelligente de création de plans d'affaires professionnels, norme nord-américaine (Canada & États-Unis), pilotée par Claude AI.
 
-First, run the development server:
+## ✨ Fonctionnalités
+
+- 🤖 **AI Copilot** — Assistant contextuel à chaque étape (Claude API)
+- 📊 **Financial Engine** — Prévisions, cash flow, scénarios financiers
+- 🔍 **Market Intelligence** — Analyse marché, concurrence, SWOT
+- 📋 **Questionnaire Adaptatif** — 10 étapes guidées selon le type d'entreprise
+- 📄 **Export PDF + DOCX** — Document professionnel complet
+- 💳 **Paiement Stripe** — Accès premium 499 $ CAD
+- 👤 **Admin Console** — Gestion complète + relances automatiques
+
+## 🛠️ Stack
+
+- **Framework :** Next.js 15 (App Router)
+- **Language :** TypeScript
+- **Styling :** Tailwind CSS + shadcn/ui
+- **Database :** PostgreSQL (Prisma ORM)
+- **Auth :** NextAuth.js (Google OAuth + email)
+- **AI :** Claude API (Anthropic)
+- **Paiement :** Stripe
+- **Emails :** Resend
+- **Déploiement :** Vercel
+
+## 🚀 Démarrage rapide
 
 ```bash
+# 1. Cloner le repo
+git clone https://github.com/hedibennis17-tech/business-plan-ai-studio.git
+cd business-plan-ai-studio
+
+# 2. Installer les dépendances
+npm install
+
+# 3. Configurer l'environnement
+cp .env.example .env.local
+# Remplir les variables dans .env.local
+
+# 4. Initialiser la base de données
+npx prisma db push
+npx prisma generate
+
+# 5. Lancer en développement
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📁 Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+  app/           → Pages Next.js (App Router)
+  components/    → Composants React
+  lib/           → Utilitaires (LLM, Stripe, DB, Auth)
+  types/         → Types TypeScript
+prisma/
+  schema.prisma  → Modèle de données
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🗺️ Roadmap
 
-## Learn More
+Voir [MASTER_SPEC.md](./MASTER_SPEC.md) pour les spécifications complètes et la roadmap de 11 phases.
 
-To learn more about Next.js, take a look at the following resources:
+## 📄 Licence
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Propriétaire — Hedi Bennis © 2026

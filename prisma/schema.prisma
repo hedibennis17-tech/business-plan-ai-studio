@@ -1,0 +1,152 @@
+// Business Plan AI Studio — Prisma Schema
+// Database: PostgreSQL (Neon / Supabase)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum PlanStatus {
+  DRAFT
+  IN_PROGRESS
+  REVIEW
+  COMPLETE
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  name         String?
+  phone        String?
+  passwordHash String?
+  googleId     String?       @unique
+  role         Role          @default(USER)
+  language     String        @default("fr")
+  emailVerified DateTime?
+  image        String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  businessPlans BusinessPlan[]
+  payments     Payment[]
+  sessions     Session[]
+  accounts     Account[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model BusinessPlan {
+  id            String     @id @default(cuid())
+  userId        String
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title         String
+  status        PlanStatus @default(DRAFT)
+  currentStep   Int        @default(1)
+  completedSteps Int[]     @default([])
+
+  // Infos de base
+  country       String     @default("CA")
+  province      String?
+  language      String     @default("fr")
+  businessType  String     // startup, pme, grande-entreprise, travailleur-autonome
+  sector        String
+  objective     String     // financement, expansion, acquisition, nouveau-projet
+  stage         String     // idee, demarrage, croissance, etabli
+
+  // Données JSON par section
+  companyData   Json?      // Section 2 — Présentation
+  productsData  Json?      // Section 3 — Produits/services
+  marketData    Json?      // Section 4 — Marché
+  marketingData Json?      // Section 5 — Marketing
+  operationsData Json?     // Section 6 — Opérations
+  teamData      Json?      // Section 7 — Équipe
+  financialData Json?      // Section 8 — Finances (calculé)
+  risksData     Json?      // Section 9 — Risques
+  annexData     Json?      // Annexes
+
+  // Paiement
+  isPaid        Boolean    @default(false)
+  paidAt        DateTime?
+
+  // Fichiers générés
+  pdfUrl        String?
+  docxUrl       String?
+
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  payments      Payment[]
+}
+
+model Payment {
+  id              String        @id @default(cuid())
+  userId          String
+  user            User          @relation(fields: [userId], references: [id])
+  businessPlanId  String
+  businessPlan    BusinessPlan  @relation(fields: [businessPlanId], references: [id])
+  stripeSessionId String        @unique
+  stripePaymentIntentId String?
+  amount          Int           // en cents (49900 = 499.00$)
+  currency        String        @default("cad")
+  status          PaymentStatus @default(PENDING)
+  metadata        Json?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model EmailLog {
+  id        String   @id @default(cuid())
+  to        String
+  subject   String
+  type      String   // welcome, payment-confirm, reminder-1, reminder-2, reminder-3
+  status    String   @default("sent")
+  metadata  Json?
+  createdAt DateTime @default(now())
+}
