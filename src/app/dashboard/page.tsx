@@ -1,5 +1,7 @@
-import { connection } from "next/server";
+export const instant = false;
+
 import { getServerSession } from "next-auth";
+
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -18,7 +20,6 @@ const steps = [
 ];
 
 export default async function DashboardPage() {
-  await connection();
   const session = await getServerSession(authOptions);
 
   if (!session?.user) {
