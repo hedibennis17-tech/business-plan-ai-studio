@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
       data: {
         name: name.trim(),
         email: email.toLowerCase().trim(),
-        password: hashedPassword,
+        passwordHash: hashedPassword,
         phone: phone?.trim() || null,
         role: "USER",
       },
