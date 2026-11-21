@@ -1,5 +1,4 @@
-export const dynamic = "force-dynamic";
-
+import { connection } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
@@ -19,6 +18,7 @@ const steps = [
 ];
 
 export default async function DashboardPage() {
+  await connection();
   const session = await getServerSession(authOptions);
 
   if (!session?.user) {
