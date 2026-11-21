@@ -1,9 +1,13 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -14,13 +18,58 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+
     if (form.password !== form.confirmPassword) {
-      alert("Les mots de passe ne correspondent pas");
+      setError("Les mots de passe ne correspondent pas");
       return;
     }
+
+    if (form.password.length < 8) {
+      setError("Le mot de passe doit contenir au moins 8 caractères");
+      return;
+    }
+
     setLoading(true);
-    // TODO: API /api/auth/register
-    setTimeout(() => setLoading(false), 1000);
+
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          password: form.password,
+          phone: form.phone || undefined,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Erreur lors de la création du compte");
+        setLoading(false);
+        return;
+      }
+
+      // Connexion automatique après inscription
+      const result = await signIn("credentials", {
+        email: form.email,
+        password: form.password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        // Compte créé mais connexion auto échouée — rediriger vers login
+        router.push("/auth/login?registered=1");
+      } else {
+        router.push("/dashboard");
+        router.refresh();
+      }
+    } catch {
+      setError("Une erreur est survenue. Réessayez.");
+      setLoading(false);
+    }
   };
 
   return (
@@ -92,6 +141,21 @@ export default function RegisterPage() {
             <span style={{ color: "var(--qc-slate-500)", fontSize: "0.875rem" }}>ou</span>
             <div style={{ flex: 1, height: "1px", background: "var(--border)" }} />
           </div>
+
+          {/* Erreur */}
+          {error && (
+            <div style={{
+              background: "#FEF2F2",
+              border: "1px solid #FECACA",
+              color: "#DC2626",
+              borderRadius: "0.5rem",
+              padding: "0.75rem 1rem",
+              fontSize: "0.9rem",
+              marginBottom: "0.5rem",
+            }}>
+              {error}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
             <div>

@@ -1,16 +1,38 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [form, setForm] = useState({ email: "", password: "" });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // TODO: NextAuth signIn
-    setTimeout(() => setLoading(false), 1000);
+    setError("");
+
+    try {
+      const result = await signIn("credentials", {
+        email: form.email,
+        password: form.password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        setError("Courriel ou mot de passe incorrect");
+      } else {
+        router.push("/dashboard");
+        router.refresh();
+      }
+    } catch {
+      setError("Une erreur est survenue. Réessayez.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -106,6 +128,21 @@ export default function LoginPage() {
             <span style={{ color: "var(--qc-slate-500)", fontSize: "0.875rem" }}>ou</span>
             <div style={{ flex: 1, height: "1px", background: "var(--border)" }} />
           </div>
+
+          {/* Erreur */}
+          {error && (
+            <div style={{
+              background: "#FEF2F2",
+              border: "1px solid #FECACA",
+              color: "#DC2626",
+              borderRadius: "0.5rem",
+              padding: "0.75rem 1rem",
+              fontSize: "0.9rem",
+              marginBottom: "0.5rem",
+            }}>
+              {error}
+            </div>
+          )}
 
           {/* Email form */}
           <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
