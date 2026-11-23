@@ -2,6 +2,7 @@
 
 /* =============================================
    BUSINESS PLAN AI STUDIO — Thème Québec Premium
+   Phase 2.5 — UI Premium
    ============================================= */
 
 :root {
@@ -191,4 +192,118 @@ body {
 .qc-accent-line::after {
   content: '⚜';
   font-size: 1rem;
+}
+
+/* =============================================
+   Phase 2.5 — Responsive Design
+   ============================================= */
+
+/* Mobile: masquer le panel gauche des pages auth */
+@media (max-width: 768px) {
+  /* Split-screen auth: masquer le panneau branding */
+  .auth-brand-panel {
+    display: none !important;
+  }
+
+  /* Sidebar dashboard: masquer sur mobile */
+  .dashboard-sidebar {
+    display: none !important;
+  }
+
+  /* Ajuster le contenu principal sans sidebar */
+  .dashboard-main {
+    margin-left: 0 !important;
+  }
+}
+
+/* Tablet: réduire la sidebar */
+@media (max-width: 1024px) and (min-width: 769px) {
+  /* Auth panels: réduire le ratio */
+}
+
+/* Focus visible pour accessibilité */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--qc-blue);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Animations subtiles */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s ease both;
+}
+
+/* Input states premium */
+input:focus {
+  border-color: var(--qc-blue) !important;
+  background: white !important;
+  box-shadow: 0 0 0 3px rgba(0, 61, 165, 0.08);
+}
+
+/* Button hover states */
+.btn-primary:disabled {
+  background: var(--qc-slate-300) !important;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Sidebar nav link hover */
+.sidebar-nav-link:hover {
+  background: rgba(255,255,255,0.08) !important;
+  color: rgba(255,255,255,0.9) !important;
+}
+
+/* Card hover premium amélioré */
+.card-premium {
+  transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+}
+
+.card-premium:hover {
+  box-shadow: 0 12px 36px rgba(0, 61, 165, 0.12);
+  transform: translateY(-3px);
+  border-color: rgba(0, 61, 165, 0.15);
+}
+
+/* Scrollbar custom */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--qc-slate-300);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--qc-slate-500);
+}
+
+/* Selection */
+::selection {
+  background: rgba(0, 61, 165, 0.15);
+  color: var(--qc-blue-dark);
 }
