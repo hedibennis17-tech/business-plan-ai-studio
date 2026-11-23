@@ -1,5 +1,5 @@
 // Business Plan AI Studio — Prisma Schema
-// Database: PostgreSQL (Neon / Supabase)
+// Database: PostgreSQL (Neon)
 
 generator client {
   provider = "prisma-client-js"
@@ -19,6 +19,7 @@ enum PlanStatus {
   IN_PROGRESS
   REVIEW
   COMPLETE
+  READY_FOR_GENERATION
 }
 
 enum PaymentStatus {
@@ -29,22 +30,22 @@ enum PaymentStatus {
 }
 
 model User {
-  id           String        @id @default(cuid())
-  email        String        @unique
-  name         String?
-  phone        String?
-  passwordHash String?
-  googleId     String?       @unique
-  role         Role          @default(USER)
-  language     String        @default("fr")
+  id            String        @id @default(cuid())
+  email         String        @unique
+  name          String?
+  phone         String?
+  passwordHash  String?
+  googleId      String?       @unique
+  role          Role          @default(USER)
+  language      String        @default("fr")
   emailVerified DateTime?
-  image        String?
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  image         String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
   businessPlans BusinessPlan[]
-  payments     Payment[]
-  sessions     Session[]
-  accounts     Account[]
+  payments      Payment[]
+  sessions      Session[]
+  accounts      Account[]
 }
 
 model Account {
@@ -82,62 +83,81 @@ model VerificationToken {
 }
 
 model BusinessPlan {
-  id            String     @id @default(cuid())
-  userId        String
-  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  title         String
-  status        PlanStatus @default(DRAFT)
-  currentStep   Int        @default(1)
-  completedSteps Int[]     @default([])
+  id             String     @id @default(cuid())
+  userId         String
+  user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title          String     @default("Mon plan d'affaires")
+  status         PlanStatus @default(DRAFT)
+  currentStep    Int        @default(1)
+  completedSteps Int[]      @default([])
 
-  // Infos de base
-  country       String     @default("CA")
-  province      String?
-  language      String     @default("fr")
-  businessType  String     // startup, pme, grande-entreprise, travailleur-autonome
-  sector        String
-  objective     String     // financement, expansion, acquisition, nouveau-projet
-  stage         String     // idee, demarrage, croissance, etabli
+  // Infos de base héritées
+  country      String  @default("CA")
+  province     String?
+  language     String  @default("fr")
+  businessType String? // startup, pme, grande-entreprise, travailleur-autonome
+  sector       String?
+  objective    String? // financement, expansion, acquisition, nouveau-projet
+  stage        String? // idee, demarrage, croissance, etabli
 
-  // Données JSON par section
-  companyData   Json?      // Section 2 — Présentation
-  productsData  Json?      // Section 3 — Produits/services
-  marketData    Json?      // Section 4 — Marché
-  marketingData Json?      // Section 5 — Marketing
-  operationsData Json?     // Section 6 — Opérations
-  teamData      Json?      // Section 7 — Équipe
-  financialData Json?      // Section 8 — Finances (calculé)
-  risksData     Json?      // Section 9 — Risques
-  annexData     Json?      // Annexes
+  // ── Étape 1 — Profil de l'entreprise ──────────────────────────────────────
+  step1Data Json? // { companyName, sector, legalForm, province, city, address, launchDate, isExisting, website }
+
+  // ── Étape 2 — Présentation du projet ──────────────────────────────────────
+  step2Data Json? // { description, problem, solution, mission, vision, shortTermGoals, mediumTermGoals, longTermGoals, valueProposition, competitiveAdvantage }
+
+  // ── Étape 3 — Analyse du marché ───────────────────────────────────────────
+  step3Data Json? // { industry, marketSize, marketPotential, trends, estimatedDemand, opportunities, risks, sources }
+
+  // ── Étape 4 — Clientèle cible ─────────────────────────────────────────────
+  step4Data Json? // { clientType, clientProfile, geographicZone, needs, behaviors, segments, existingClients }
+
+  // ── Étape 5 — Concurrence et positionnement ───────────────────────────────
+  step5Data Json? // { directCompetitors, indirectCompetitors, competitorProducts, priceComparison, strengths, weaknesses, differentiation }
+
+  // ── Étape 6 — Marketing et ventes ────────────────────────────────────────
+  step6Data Json? // { commercializationStrategy, salesChannels, digitalMarketing, advertising, partnerships, pricingPolicy, salesForecast, acquisitionStrategy }
+
+  // ── Étape 7 — Plan opérationnel et RH ────────────────────────────────────
+  step7Data Json? // { dailyOperations, equipments, suppliers, partners, employeeCount, functions, salaries, processes }
+
+  // ── Étape 8 — Investissements et financement ──────────────────────────────
+  step8Data Json? // { initialInvestment, equipmentCosts, startupFees, workingCapital, personalFunding, loans, grants, investors, amountSought, confirmedFunding, plannedFunding }
+
+  // ── Étape 9 — Prévisions financières ─────────────────────────────────────
+  step9Data Json? // { revenue: [{year, amount}], products: [{name, price, volume}], variableCosts, fixedCosts, salaries, rent, insurance, marketing, adminFees, investments, cashNeeds, year1, year2, year3 }
+
+  // ── Étape 10 — Validation et finalisation ────────────────────────────────
+  step10Data Json? // { validatedAt, missingFields, notes }
 
   // Paiement
-  isPaid        Boolean    @default(false)
-  paidAt        DateTime?
+  isPaid Boolean   @default(false)
+  paidAt DateTime?
 
   // Fichiers générés
-  pdfUrl        String?
-  docxUrl       String?
+  pdfUrl  String?
+  docxUrl String?
 
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  payments      Payment[]
+  payments Payment[]
 }
 
 model Payment {
-  id              String        @id @default(cuid())
-  userId          String
-  user            User          @relation(fields: [userId], references: [id])
-  businessPlanId  String
-  businessPlan    BusinessPlan  @relation(fields: [businessPlanId], references: [id])
-  stripeSessionId String        @unique
+  id                    String        @id @default(cuid())
+  userId                String
+  user                  User          @relation(fields: [userId], references: [id])
+  businessPlanId        String
+  businessPlan          BusinessPlan  @relation(fields: [businessPlanId], references: [id])
+  stripeSessionId       String        @unique
   stripePaymentIntentId String?
-  amount          Int           // en cents (49900 = 499.00$)
-  currency        String        @default("cad")
-  status          PaymentStatus @default(PENDING)
-  metadata        Json?
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  amount                Int           // en cents (49900 = 499.00$)
+  currency              String        @default("cad")
+  status                PaymentStatus @default(PENDING)
+  metadata              Json?
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
 }
 
 model EmailLog {

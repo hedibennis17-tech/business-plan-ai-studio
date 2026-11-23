@@ -2,8 +2,10 @@ export const instant = false;
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import StartPlanButton from "@/components/dashboard/StartPlanButton";
 
 const steps = [
   { num: 1, title: "Identification", icon: "👤", desc: "Connexion sécurisée" },
@@ -38,8 +40,21 @@ export default async function DashboardPage() {
     ? user.name.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2)
     : (user.email?.[0] ?? "?").toUpperCase();
 
-  const completedSteps: number[] = [];
-  const currentStep = 1;
+  // Charger le plan existant de l'utilisateur
+  const existingPlan = await prisma.businessPlan.findFirst({
+    where: { user: { email: user.email! } },
+    orderBy: { updatedAt: "desc" },
+    select: {
+      id: true,
+      title: true,
+      status: true,
+      currentStep: true,
+      completedSteps: true,
+    },
+  });
+
+  const completedSteps: number[] = existingPlan?.completedSteps ?? [];
+  const currentStep = existingPlan?.currentStep ?? 1;
   const progress = Math.round((completedSteps.length / 10) * 100);
 
   const today = new Date().toLocaleDateString("fr-CA", {
@@ -298,22 +313,7 @@ export default async function DashboardPage() {
                     : `Étape ${currentStep} sur 10 · ${progress}% complété`}
                 </p>
               </div>
-              <Link
-                href="/plan/step/1"
-                style={{
-                  background: "var(--qc-blue)",
-                  color: "white",
-                  padding: "0.75rem 1.5rem",
-                  borderRadius: "0.625rem",
-                  fontWeight: 700,
-                  textDecoration: "none",
-                  fontSize: "0.9rem",
-                  boxShadow: "0 4px 14px rgba(0,61,165,0.25)",
-                  display: "inline-flex", alignItems: "center", gap: "0.375rem",
-                }}
-              >
-                {completedSteps.length === 0 ? "Commencer" : `Continuer`} <span>→</span>
-              </Link>
+              <StartPlanButton existingPlan={existingPlan ?? null} />
             </div>
 
             {/* Progress */}

@@ -60,6 +60,12 @@ export default withAuth(
       }
     }
 
+    // Rate limiting sur les routes API des plans
+    if (path.startsWith("/api/plans")) {
+      const rateLimitResponse = await checkRateLimit(req as NextRequest, "api");
+      if (rateLimitResponse) return rateLimitResponse;
+    }
+
     // Redirection admin → dashboard si rôle insuffisant
     if (path.startsWith("/admin") && token?.role !== "ADMIN") {
       return NextResponse.redirect(new URL("/dashboard", req.url));
@@ -89,9 +95,11 @@ export const config = {
   matcher: [
     "/dashboard/:path*",
     "/plan/:path*",
+    "/questionnaire/:path*",
     "/admin/:path*",
     "/payment/:path*",
     "/api/auth/register",
     "/api/auth/signin",
+    "/api/plans/:path*",
   ],
 };
