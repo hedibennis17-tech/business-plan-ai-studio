@@ -18,11 +18,11 @@ export default function Step6({ defaultValues, onChange, onValidChange }: Props)
 
   const field = (name: keyof Step6Data, label: string, placeholder: string, rows = 3) => (
     <div>
-      <label className="block text-sm font-medium text-slate-300 mb-1">
-        {label} <span className="text-slate-500 font-normal">(optionnel)</span>
+      <label className="block text-sm font-medium text-gray-700 mb-1">
+        {label} <span className="text-gray-400 font-normal">(optionnel)</span>
       </label>
       <textarea {...register(name)} rows={rows} placeholder={placeholder}
-        className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition resize-none"
+        className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700/30 transition resize-none"
       />
     </div>
   );
@@ -30,8 +30,8 @@ export default function Step6({ defaultValues, onChange, onValidChange }: Props)
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="text-xl font-semibold text-white mb-1">Marketing et ventes</h2>
-        <p className="text-sm text-slate-400">Comment allez-vous attirer et fidéliser vos clients ?</p>
+        <h2 className="text-xl font-semibold text-gray-900 mb-1">Marketing et ventes</h2>
+        <p className="text-sm text-gray-500">Comment allez-vous attirer et fidéliser vos clients ?</p>
       </div>
 
       {field("commercializationStrategy", "Stratégie de commercialisation", "Ex. : Lancement avec phase bêta gratuite pour 50 clients, puis abonnement mensuel + ventes à l'unité...")}

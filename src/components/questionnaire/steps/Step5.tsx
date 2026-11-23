@@ -22,15 +22,15 @@ export default function Step5({ defaultValues, onChange, onValidChange }: Props)
 
   const textArea = (name: keyof Step5Data, label: string, placeholder: string, required = false) => (
     <div>
-      <label className="block text-sm font-medium text-slate-300 mb-1">
-        {label} {required ? <span className="text-red-400">*</span> : <span className="text-slate-500 font-normal">(optionnel)</span>}
+      <label className="block text-sm font-medium text-gray-700 mb-1">
+        {label} {required ? <span className="text-red-400">*</span> : <span className="text-gray-400 font-normal">(optionnel)</span>}
       </label>
       <textarea
         {...register(name, required ? { required: "Requis", minLength: { value: 10, message: "Min. 10 caractères" } } : {})}
         rows={3}
         placeholder={placeholder}
-        className={`w-full bg-slate-700/50 border rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition resize-none
-          ${(errors[name] as { message?: string })?.message ? "border-red-500" : "border-slate-600"}`}
+        className={`w-full bg-white border rounded-lg px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700/30 transition resize-none
+          ${(errors[name] as { message?: string })?.message ? "border-red-500" : "border-gray-300"}`}
       />
       {(errors[name] as { message?: string })?.message && (
         <p className="mt-1 text-xs text-red-400">{(errors[name] as { message?: string }).message}</p>
@@ -41,8 +41,8 @@ export default function Step5({ defaultValues, onChange, onValidChange }: Props)
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="text-xl font-semibold text-white mb-1">Concurrence et positionnement</h2>
-        <p className="text-sm text-slate-400">Analysez vos concurrents et expliquez comment vous vous positionnez par rapport à eux.</p>
+        <h2 className="text-xl font-semibold text-gray-900 mb-1">Concurrence et positionnement</h2>
+        <p className="text-sm text-gray-500">Analysez vos concurrents et expliquez comment vous vous positionnez par rapport à eux.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

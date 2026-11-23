@@ -21,6 +21,7 @@ const patchBodySchema = z.object({
   step: z.number().int().min(1).max(10),
   data: z.record(z.string(), z.unknown()),
   title: z.string().trim().max(200).optional(),
+  autosave: z.boolean().optional(), // Si true, validation souple (données partielles OK)
 });
 
 const STEP_FIELD_MAP: Record<number, string> = {
@@ -63,17 +64,25 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     return NextResponse.json({ error: formatZodError(patchParsed.error) }, { status: 400 });
   }
 
-  const { step, data, title } = patchParsed.data;
+  const { step, data, title, autosave } = patchParsed.data;
 
   // Valider les données de l'étape avec le schéma correspondant
+  // En mode autosave, on accepte les données partielles (pas de validation stricte)
   const stepSchema = stepSchemas[step as keyof typeof stepSchemas];
-  const stepParsed = stepSchema.safeParse(data);
-  if (!stepParsed.success) {
-    return NextResponse.json(
-      { error: formatZodError(stepParsed.error), field: stepParsed.error.issues[0]?.path[0] },
-      { status: 400 }
-    );
+  let validatedData: Record<string, unknown> = data;
+
+  if (!autosave) {
+    // Validation stricte uniquement quand l'utilisateur clique "Suivant"
+    const stepParsed = stepSchema.safeParse(data);
+    if (!stepParsed.success) {
+      return NextResponse.json(
+        { error: formatZodError(stepParsed.error), field: stepParsed.error.issues[0]?.path[0] },
+        { status: 400 }
+      );
+    }
+    validatedData = stepParsed.data as Record<string, unknown>;
   }
+  // En mode autosave : on sauvegarde les données telles quelles sans validation
 
   try {
     // Vérifier que le plan appartient à l'utilisateur
@@ -87,20 +96,28 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     }
 
     const fieldName = STEP_FIELD_MAP[step];
-    const completedSteps = Array.from(new Set([...existing.completedSteps, step]));
-    const nextStep = Math.min(step + 1, 10);
+
+    // En mode autosave, ne pas marquer l'étape comme complétée
+    const completedSteps = autosave
+      ? existing.completedSteps
+      : Array.from(new Set([...existing.completedSteps, step]));
+
+    // En mode autosave, garder currentStep inchangé
+    const nextStep = autosave ? existing.currentStep : Math.min(step + 1, 10);
     const isComplete = completedSteps.length === 10;
 
     // Déterminer le nouveau statut
     let newStatus = existing.status;
-    if (step === 10 && (data as { confirmed?: boolean }).confirmed) {
-      newStatus = "READY_FOR_GENERATION";
-    } else if (existing.status === "DRAFT" && completedSteps.length > 0) {
-      newStatus = "IN_PROGRESS";
+    if (!autosave) {
+      if (step === 10 && (data as { confirmed?: boolean }).confirmed) {
+        newStatus = "READY_FOR_GENERATION";
+      } else if (existing.status === "DRAFT" && completedSteps.length > 0) {
+        newStatus = "IN_PROGRESS";
+      }
     }
 
     const updateData: Record<string, unknown> = {
-      [fieldName]: stepParsed.data,
+      [fieldName]: validatedData,
       currentStep: nextStep,
       completedSteps,
       status: newStatus,
@@ -108,7 +125,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     };
 
     if (title) updateData.title = title;
-    if (isComplete && !title) updateData.status = "COMPLETE";
+    if (!autosave && isComplete && !title) updateData.status = "COMPLETE";
 
     const updated = await prisma.businessPlan.update({
       where: { id },

@@ -66,8 +66,8 @@ export default function Step10({ defaultValues, planData, onChange, onValidChang
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-semibold text-white mb-1">Validation et finalisation</h2>
-        <p className="text-sm text-slate-400">Vérifiez toutes vos réponses avant de finaliser votre questionnaire.</p>
+        <h2 className="text-xl font-semibold text-gray-900 mb-1">Validation et finalisation</h2>
+        <p className="text-sm text-gray-500">Vérifiez toutes vos réponses avant de finaliser votre questionnaire.</p>
       </div>
 
       {/* Alerte étapes manquantes */}
@@ -77,7 +77,7 @@ export default function Step10({ defaultValues, planData, onChange, onValidChang
             <span className="text-orange-400 text-lg">⚠</span>
             <span className="text-sm font-semibold text-orange-400">Étapes incomplètes</span>
           </div>
-          <p className="text-xs text-slate-400 mb-3">Ces étapes n'ont pas encore été complétées. Votre plan sera moins complet sans elles.</p>
+          <p className="text-xs text-gray-500 mb-3">Ces étapes n'ont pas encore été complétées. Votre plan sera moins complet sans elles.</p>
           <div className="flex flex-wrap gap-2">
             {missingSteps.map((s) => (
               <button
@@ -104,21 +104,21 @@ export default function Step10({ defaultValues, planData, onChange, onValidChang
           return (
             <div
               key={step}
-              className={`border rounded-xl p-4 transition ${isCompleted ? "border-slate-700 bg-slate-800/50" : "border-slate-700/50 bg-slate-800/20 opacity-60"}`}
+              className={`border rounded-xl p-4 transition ${isCompleted ? "border-gray-200 bg-gray-50" : "border-gray-200/50 bg-gray-50/20 opacity-60"}`}
             >
               <div className="flex items-start justify-between gap-2">
                 <div className="flex items-center gap-2 flex-1 min-w-0">
                   <span className={`text-sm font-bold w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0
-                    ${isCompleted ? "bg-amber-500 text-slate-900" : "bg-slate-700 text-slate-400"}`}>
+                    ${isCompleted ? "bg-amber-500 text-slate-900" : "bg-gray-100 text-gray-500"}`}>
                     {isCompleted ? "✓" : step}
                   </span>
                   <div className="min-w-0">
-                    <div className="text-sm font-medium text-slate-200">{label}</div>
+                    <div className="text-sm font-medium text-gray-800">{label}</div>
                     {isCompleted && (
-                      <div className="text-xs text-slate-500 mt-0.5 truncate">{preview}</div>
+                      <div className="text-xs text-gray-400 mt-0.5 truncate">{preview}</div>
                     )}
                     {!isCompleted && (
-                      <div className="text-xs text-slate-500 mt-0.5">Non complété</div>
+                      <div className="text-xs text-gray-400 mt-0.5">Non complété</div>
                     )}
                   </div>
                 </div>
@@ -137,19 +137,19 @@ export default function Step10({ defaultValues, planData, onChange, onValidChang
 
       {/* Notes finales */}
       <div>
-        <label className="block text-sm font-medium text-slate-300 mb-1">
-          Notes additionnelles <span className="text-slate-500 font-normal">(optionnel)</span>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Notes additionnelles <span className="text-gray-400 font-normal">(optionnel)</span>
         </label>
         <textarea
           {...register("notes")}
           rows={3}
           placeholder="Informations supplémentaires importantes pour votre plan d'affaires, contexte particulier, contraintes spécifiques..."
-          className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition resize-none"
+          className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700/30 transition resize-none"
         />
       </div>
 
       {/* Validation finale */}
-      <div className={`border-2 rounded-xl p-5 transition ${values.confirmed ? "border-emerald-500/50 bg-emerald-500/10" : "border-slate-600 bg-slate-800/30"}`}>
+      <div className={`border-2 rounded-xl p-5 transition ${values.confirmed ? "border-emerald-500/50 bg-emerald-500/10" : "border-gray-300 bg-gray-50"}`}>
         <label className="flex items-start gap-3 cursor-pointer">
           <input
             type="checkbox"
@@ -157,8 +157,8 @@ export default function Step10({ defaultValues, planData, onChange, onValidChang
             className="mt-0.5 w-5 h-5 rounded accent-emerald-500 flex-shrink-0"
           />
           <div>
-            <div className="text-sm font-semibold text-white">Je confirme que les informations fournies sont exactes et complètes</div>
-            <div className="text-xs text-slate-400 mt-1">
+            <div className="text-sm font-semibold text-gray-900">Je confirme que les informations fournies sont exactes et complètes</div>
+            <div className="text-xs text-gray-500 mt-1">
               En cochant cette case, vous indiquez que votre questionnaire est prêt pour la génération du plan d'affaires professionnel.
               La génération IA sera disponible à l'étape suivante (Phase 4).
             </div>
@@ -168,7 +168,7 @@ export default function Step10({ defaultValues, planData, onChange, onValidChang
         {values.confirmed && (
           <div className="mt-4 bg-emerald-500/20 rounded-lg p-3 text-center">
             <div className="text-emerald-400 font-semibold text-sm">✓ Questionnaire prêt pour génération</div>
-            <div className="text-xs text-slate-400 mt-1">
+            <div className="text-xs text-gray-500 mt-1">
               Le statut de votre plan passera à « Prêt pour génération ». La génération IA (Phase 4) sera disponible prochainement.
             </div>
           </div>

@@ -16,19 +16,19 @@ function MoneyInput({ label, name, register, placeholder, hint }: {
 }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-slate-300 mb-1">
-        {label} <span className="text-slate-500 font-normal">(optionnel)</span>
+      <label className="block text-sm font-medium text-gray-700 mb-1">
+        {label} <span className="text-gray-400 font-normal">(optionnel)</span>
       </label>
-      {hint && <p className="text-xs text-slate-500 mb-1">{hint}</p>}
+      {hint && <p className="text-xs text-gray-400 mb-1">{hint}</p>}
       <div className="relative">
-        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">$</span>
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">$</span>
         <input
           type="number"
           {...(register as (n: string, o?: object) => object)(name, { valueAsNumber: true, min: 0 })}
           placeholder={placeholder ?? "0"}
           min={0}
           step={500}
-          className="w-full bg-slate-700/50 border border-slate-600 rounded-lg pl-7 pr-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition"
+          className="w-full bg-white border border-gray-300 rounded-lg pl-7 pr-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700/30 transition"
         />
       </div>
     </div>
@@ -61,8 +61,8 @@ export default function Step9({ defaultValues, onChange, onValidChange }: Props)
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-semibold text-white mb-1">Prévisions financières</h2>
-        <p className="text-sm text-slate-400">Estimez vos revenus et dépenses sur 3 ans. Les hypothèses doivent être clairement identifiées.</p>
+        <h2 className="text-xl font-semibold text-gray-900 mb-1">Prévisions financières</h2>
+        <p className="text-sm text-gray-500">Estimez vos revenus et dépenses sur 3 ans. Les hypothèses doivent être clairement identifiées.</p>
         <div className="mt-2 bg-amber-500/10 border border-amber-500/30 rounded-lg px-3 py-2 text-xs text-amber-400">
           ⚠ Les chiffres manquants ne seront pas inventés par l'IA. Indiquez vos hypothèses de base, même approximatives.
         </div>
@@ -92,7 +92,7 @@ export default function Step9({ defaultValues, onChange, onValidChange }: Props)
         </div>
 
         {fields.length === 0 && (
-          <p className="text-xs text-slate-500 text-center py-4 border border-dashed border-slate-700 rounded-lg">
+          <p className="text-xs text-gray-400 text-center py-4 border border-dashed border-gray-200 rounded-lg">
             Ajoutez vos produits ou services pour calculer automatiquement les revenus
           </p>
         )}
@@ -100,42 +100,42 @@ export default function Step9({ defaultValues, onChange, onValidChange }: Props)
         {fields.map((f, i) => (
           <div key={f.id} className="grid grid-cols-12 gap-2 mb-2 items-end">
             <div className="col-span-5">
-              {i === 0 && <label className="block text-xs text-slate-400 mb-1">Produit / Service</label>}
+              {i === 0 && <label className="block text-xs text-gray-500 mb-1">Produit / Service</label>}
               <input
                 {...register(`products.${i}.name`)}
                 placeholder="Ex. : Repas livré"
-                className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50"
+                className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700/30"
               />
             </div>
             <div className="col-span-3">
-              {i === 0 && <label className="block text-xs text-slate-400 mb-1">Prix ($)</label>}
+              {i === 0 && <label className="block text-xs text-gray-500 mb-1">Prix ($)</label>}
               <input
                 type="number"
                 {...register(`products.${i}.price`, { valueAsNumber: true, min: 0 })}
                 placeholder="22"
-                className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50"
+                className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700/30"
               />
             </div>
             <div className="col-span-3">
-              {i === 0 && <label className="block text-xs text-slate-400 mb-1">Volume/an</label>}
+              {i === 0 && <label className="block text-xs text-gray-500 mb-1">Volume/an</label>}
               <input
                 type="number"
                 {...register(`products.${i}.volume`, { valueAsNumber: true, min: 0 })}
                 placeholder="5000"
-                className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50"
+                className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700/30"
               />
             </div>
             <div className="col-span-1">
               {i === 0 && <div className="mb-1 h-4" />}
               <button type="button" onClick={() => remove(i)}
-                className="w-full h-9 flex items-center justify-center text-slate-500 hover:text-red-400 transition rounded-lg hover:bg-red-500/10"
+                className="w-full h-9 flex items-center justify-center text-gray-400 hover:text-red-400 transition rounded-lg hover:bg-red-500/10"
               >×</button>
             </div>
           </div>
         ))}
 
         {productsRevenue > 0 && (
-          <div className="mt-2 text-right text-xs text-slate-400">
+          <div className="mt-2 text-right text-xs text-gray-500">
             Revenu calculé : <span className="text-emerald-400 font-semibold">{productsRevenue.toLocaleString("fr-CA")} $/an</span>
           </div>
         )}
@@ -159,11 +159,11 @@ export default function Step9({ defaultValues, onChange, onValidChange }: Props)
         {totalExpenses > 0 && (
           <div className="mt-3 grid grid-cols-2 gap-3">
             <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-3">
-              <div className="text-xs text-slate-400">Total dépenses (An 1)</div>
+              <div className="text-xs text-gray-500">Total dépenses (An 1)</div>
               <div className="text-lg font-bold text-red-400">{totalExpenses.toLocaleString("fr-CA")} $</div>
             </div>
             <div className={`border rounded-xl p-3 ${grossMargin1 >= 0 ? "bg-emerald-500/10 border-emerald-500/30" : "bg-red-500/10 border-red-500/30"}`}>
-              <div className="text-xs text-slate-400">Résultat An 1 (estimé)</div>
+              <div className="text-xs text-gray-500">Résultat An 1 (estimé)</div>
               <div className={`text-lg font-bold ${grossMargin1 >= 0 ? "text-emerald-400" : "text-red-400"}`}>
                 {grossMargin1 >= 0 ? "+" : ""}{grossMargin1.toLocaleString("fr-CA")} $
               </div>
@@ -174,13 +174,13 @@ export default function Step9({ defaultValues, onChange, onValidChange }: Props)
 
       {/* Hypothèses */}
       <div>
-        <label className="block text-sm font-medium text-slate-300 mb-1">
-          Hypothèses et notes <span className="text-slate-500 font-normal">(optionnel)</span>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Hypothèses et notes <span className="text-gray-400 font-normal">(optionnel)</span>
         </label>
         <p className="text-xs text-amber-400/80 mb-1">Expliquez comment vous avez estimé ces chiffres. L'IA utilisera ces hypothèses dans le plan.</p>
         <textarea {...register("assumptions")} rows={4}
           placeholder="Ex. : CA An 1 basé sur 150 commandes/sem × 22$/commande × 52 sem. Croissance de 100% An 2 basée sur expansion géographique à Montréal-Nord. Coûts variables = 40% du CA (benchmark industrie)..."
-          className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition resize-none"
+          className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700/30 transition resize-none"
         />
       </div>
     </div>

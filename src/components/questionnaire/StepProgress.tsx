@@ -20,61 +20,94 @@ type Props = {
 };
 
 export default function StepProgress({ currentStep, completedSteps, onNavigate }: Props) {
-  const progress = Math.round((completedSteps.length / 10) * 100);
-
   return (
-    <div className="w-full">
-      {/* Barre de progression */}
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-sm font-medium text-slate-300">
-          Étape {currentStep} sur 10
-        </span>
-        <span className="text-sm font-semibold text-amber-400">{progress}% complété</span>
-      </div>
-
-      <div className="w-full bg-slate-700 rounded-full h-2 mb-6">
-        <div
-          className="bg-gradient-to-r from-amber-500 to-amber-400 h-2 rounded-full transition-all duration-500"
-          style={{ width: `${progress}%` }}
-        />
-      </div>
-
-      {/* Étapes numérotées */}
-      <div className="flex gap-1 overflow-x-auto pb-2 scrollbar-hide">
+    <div style={{ width: "100%" }}>
+      {/* Étapes compactes en ligne */}
+      <div
+        style={{
+          display: "flex",
+          gap: 4,
+          overflowX: "auto",
+          paddingBottom: 4,
+        }}
+      >
         {STEP_LABELS.map((label, i) => {
           const step = i + 1;
           const isCompleted = completedSteps.includes(step);
           const isCurrent = step === currentStep;
-          const isClickable = isCompleted || step === currentStep;
+          const isClickable = isCompleted || step <= currentStep;
 
           return (
             <button
               key={step}
               onClick={() => isClickable && onNavigate?.(step)}
               disabled={!isClickable}
-              className={`flex flex-col items-center gap-1 px-2 py-2 rounded-lg transition-all min-w-[60px]
-                ${isCurrent ? "bg-amber-500/20 border border-amber-500/50" : ""}
-                ${isCompleted && !isCurrent ? "cursor-pointer hover:bg-slate-700/50" : ""}
-                ${!isClickable ? "opacity-40 cursor-not-allowed" : ""}
-              `}
               title={label}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 4,
+                padding: "8px 6px",
+                borderRadius: 10,
+                border: isCurrent
+                  ? "1px solid var(--accent, #D6A84F)"
+                  : "1px solid transparent",
+                background: isCurrent
+                  ? "rgba(214,168,79,0.08)"
+                  : "transparent",
+                cursor: isClickable ? "pointer" : "not-allowed",
+                opacity: !isClickable && !isCurrent ? 0.4 : 1,
+                minWidth: 52,
+                transition: "all 0.15s",
+                flexShrink: 0,
+              }}
             >
+              {/* Cercle numéroté */}
               <div
-                className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-all
-                  ${isCompleted
-                    ? "bg-amber-500 border-amber-500 text-slate-900"
+                style={{
+                  width: 28,
+                  height: 28,
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 11,
+                  fontWeight: 700,
+                  border: isCompleted
+                    ? "2px solid var(--accent, #D6A84F)"
                     : isCurrent
-                    ? "bg-transparent border-amber-400 text-amber-400"
-                    : "bg-transparent border-slate-600 text-slate-500"
-                  }
-                `}
+                    ? "2px solid var(--primary, #173F35)"
+                    : "2px solid #E5E7EB",
+                  background: isCompleted
+                    ? "var(--accent, #D6A84F)"
+                    : isCurrent
+                    ? "var(--primary, #173F35)"
+                    : "white",
+                  color: isCompleted
+                    ? "#173F35"
+                    : isCurrent
+                    ? "white"
+                    : "#9CA3AF",
+                  transition: "all 0.15s",
+                }}
               >
                 {isCompleted ? "✓" : step}
               </div>
+              {/* Label */}
               <span
-                className={`text-[10px] font-medium leading-tight text-center
-                  ${isCurrent ? "text-amber-400" : isCompleted ? "text-slate-300" : "text-slate-500"}
-                `}
+                style={{
+                  fontSize: 9,
+                  fontWeight: isCurrent ? 600 : 400,
+                  color: isCurrent
+                    ? "var(--primary, #173F35)"
+                    : isCompleted
+                    ? "#6B7280"
+                    : "#9CA3AF",
+                  textAlign: "center",
+                  lineHeight: 1.2,
+                  whiteSpace: "nowrap",
+                }}
               >
                 {label}
               </span>

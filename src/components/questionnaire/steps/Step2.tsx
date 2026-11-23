@@ -27,24 +27,24 @@ export default function Step2({ defaultValues, onChange, onValidChange }: Props)
     register(name, required ? { required: "Requis", minLength: { value: 10, message: "Min. 10 caractères" } } : {});
 
   const fieldCls = (hasError: boolean) =>
-    `w-full bg-slate-700/50 border rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition resize-none ${hasError ? "border-red-500" : "border-slate-600"}`;
+    `w-full bg-white border rounded-lg px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700/30 transition resize-none ${hasError ? "border-red-500" : "border-gray-300"}`;
 
   const Label = ({ text, name, required: req }: { text: string; name: string; required?: boolean }) => (
-    <label htmlFor={name} className="block text-sm font-medium text-slate-300 mb-1">
-      {text} {req ? <span className="text-red-400">*</span> : <span className="text-slate-500 font-normal">(optionnel)</span>}
+    <label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-1">
+      {text} {req ? <span className="text-red-400">*</span> : <span className="text-gray-400 font-normal">(optionnel)</span>}
     </label>
   );
 
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="text-xl font-semibold text-white mb-1">Présentation du projet</h2>
-        <p className="text-sm text-slate-400">Décrivez votre projet, le problème qu&apos;il résout et votre proposition de valeur.</p>
+        <h2 className="text-xl font-semibold text-gray-900 mb-1">Présentation du projet</h2>
+        <p className="text-sm text-gray-500">Décrivez votre projet, le problème qu&apos;il résout et votre proposition de valeur.</p>
       </div>
 
       <div>
         <Label text="Description du projet" name="description" required />
-        <p className="text-xs text-slate-500 mb-1">Qu&apos;est-ce que vous faites exactement ? Pour qui ?</p>
+        <p className="text-xs text-gray-400 mb-1">Qu&apos;est-ce que vous faites exactement ? Pour qui ?</p>
         <textarea {...field("description", true)} rows={4}
           placeholder="Décrivez votre projet en quelques phrases claires et percutantes..."
           className={fieldCls(!!errors.description)} />
@@ -70,7 +70,7 @@ export default function Step2({ defaultValues, onChange, onValidChange }: Props)
 
       <div>
         <Label text="Proposition de valeur" name="valueProposition" required />
-        <p className="text-xs text-slate-500 mb-1">C&apos;est ce qui vous rend unique et indispensable.</p>
+        <p className="text-xs text-gray-400 mb-1">C&apos;est ce qui vous rend unique et indispensable.</p>
         <textarea {...field("valueProposition", true)} rows={3}
           placeholder="Pourquoi un client devrait vous choisir ? Ex. : Livraison garantie en 30 min ou remboursé..."
           className={fieldCls(!!errors.valueProposition)} />

@@ -47,21 +47,21 @@ export default function Step1({ defaultValues, onChange, onValidChange }: Props)
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-semibold text-white mb-1">Profil de l'entreprise</h2>
-        <p className="text-sm text-slate-400">Informations de base sur votre entreprise ou projet.</p>
+        <h2 className="text-xl font-semibold text-gray-900 mb-1">Profil de l'entreprise</h2>
+        <p className="text-sm text-gray-500">Informations de base sur votre entreprise ou projet.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Nom */}
         <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-slate-300 mb-1">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
             Nom de l'entreprise <span className="text-red-400">*</span>
           </label>
           <input
             {...register("companyName", { required: "Requis" })}
             placeholder="Ex. : Café du Plateau SENC"
-            className={`w-full bg-slate-700/50 border rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition
-              ${errors.companyName ? "border-red-500" : "border-slate-600"}`}
+            className={`w-full bg-white border rounded-lg px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700/30 transition
+              ${errors.companyName ? "border-red-500" : "border-gray-300"}`}
           />
           {errors.companyName && (
             <p className="mt-1 text-xs text-red-400">{errors.companyName.message}</p>
@@ -70,14 +70,14 @@ export default function Step1({ defaultValues, onChange, onValidChange }: Props)
 
         {/* Secteur */}
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-1">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
             Secteur d'activité <span className="text-red-400">*</span>
           </label>
           <input
             {...register("sector", { required: "Requis" })}
             placeholder="Ex. : Restauration, Technologie, Commerce de détail"
-            className={`w-full bg-slate-700/50 border rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition
-              ${errors.sector ? "border-red-500" : "border-slate-600"}`}
+            className={`w-full bg-white border rounded-lg px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700/30 transition
+              ${errors.sector ? "border-red-500" : "border-gray-300"}`}
           />
           {errors.sector && (
             <p className="mt-1 text-xs text-red-400">{errors.sector.message}</p>
@@ -86,13 +86,13 @@ export default function Step1({ defaultValues, onChange, onValidChange }: Props)
 
         {/* Forme juridique */}
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-1">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
             Forme juridique <span className="text-red-400">*</span>
           </label>
           <select
             {...register("legalForm", { required: "Requis" })}
-            className={`w-full bg-slate-700/50 border rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition
-              ${errors.legalForm ? "border-red-500" : "border-slate-600"}`}
+            className={`w-full bg-white border rounded-lg px-4 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-700/30 transition
+              ${errors.legalForm ? "border-red-500" : "border-gray-300"}`}
           >
             <option value="">Sélectionner...</option>
             {LEGAL_FORMS.map((f) => <option key={f} value={f}>{f}</option>)}
@@ -104,13 +104,13 @@ export default function Step1({ defaultValues, onChange, onValidChange }: Props)
 
         {/* Province */}
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-1">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
             Province <span className="text-red-400">*</span>
           </label>
           <select
             {...register("province", { required: "Requis" })}
-            className={`w-full bg-slate-700/50 border rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition
-              ${errors.province ? "border-red-500" : "border-slate-600"}`}
+            className={`w-full bg-white border rounded-lg px-4 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-700/30 transition
+              ${errors.province ? "border-red-500" : "border-gray-300"}`}
           >
             <option value="">Sélectionner...</option>
             {PROVINCES.map((p) => <option key={p} value={p}>{p}</option>)}
@@ -119,56 +119,56 @@ export default function Step1({ defaultValues, onChange, onValidChange }: Props)
 
         {/* Ville */}
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-1">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
             Ville <span className="text-red-400">*</span>
           </label>
           <input
             {...register("city", { required: "Requis" })}
             placeholder="Ex. : Montréal, Québec, Toronto"
-            className={`w-full bg-slate-700/50 border rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition
-              ${errors.city ? "border-red-500" : "border-slate-600"}`}
+            className={`w-full bg-white border rounded-lg px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700/30 transition
+              ${errors.city ? "border-red-500" : "border-gray-300"}`}
           />
         </div>
 
         {/* Adresse */}
         <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-slate-300 mb-1">
-            Adresse <span className="text-slate-500 font-normal">(optionnel)</span>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Adresse <span className="text-gray-400 font-normal">(optionnel)</span>
           </label>
           <input
             {...register("address")}
             placeholder="Ex. : 123 rue Saint-Denis, Montréal, H2X 1Z6"
-            className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition"
+            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700/30 transition"
           />
         </div>
 
         {/* Date de lancement */}
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-1">
-            Date de création / lancement <span className="text-slate-500 font-normal">(optionnel)</span>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Date de création / lancement <span className="text-gray-400 font-normal">(optionnel)</span>
           </label>
           <input
             {...register("launchDate")}
             placeholder="Ex. : Mars 2025, 01/06/2025"
-            className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition"
+            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700/30 transition"
           />
         </div>
 
         {/* Site web */}
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-1">
-            Site web <span className="text-slate-500 font-normal">(optionnel)</span>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Site web <span className="text-gray-400 font-normal">(optionnel)</span>
           </label>
           <input
             {...register("website")}
             placeholder="Ex. : https://monentreprise.com"
-            className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition"
+            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700/30 transition"
           />
         </div>
 
         {/* Type entreprise */}
         <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-slate-300 mb-3">
+          <label className="block text-sm font-medium text-gray-700 mb-3">
             Type d'entreprise <span className="text-red-400">*</span>
           </label>
           <div className="flex gap-4">
@@ -181,7 +181,7 @@ export default function Step1({ defaultValues, onChange, onValidChange }: Props)
                 className={`flex-1 cursor-pointer border-2 rounded-xl p-4 transition
                   ${watch("isExisting") === value
                     ? "border-amber-500 bg-amber-500/10"
-                    : "border-slate-600 hover:border-slate-500"
+                    : "border-gray-300 hover:border-gray-300"
                   }`}
               >
                 <input
@@ -195,8 +195,8 @@ export default function Step1({ defaultValues, onChange, onValidChange }: Props)
                     // force set via native event
                   }}
                 />
-                <div className="text-sm font-medium text-white">{label}</div>
-                <div className="text-xs text-slate-400 mt-1">{desc}</div>
+                <div className="text-sm font-medium text-gray-900">{label}</div>
+                <div className="text-xs text-gray-500 mt-1">{desc}</div>
               </label>
             ))}
           </div>

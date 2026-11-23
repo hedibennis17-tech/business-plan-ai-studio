@@ -22,15 +22,15 @@ export default function Step3({ defaultValues, onChange, onValidChange }: Props)
 
   const field = (name: string, label: string, placeholder: string, required = false, hint?: string) => (
     <div>
-      <label className="block text-sm font-medium text-slate-300 mb-1">
-        {label} {required ? <span className="text-red-400">*</span> : <span className="text-slate-500 font-normal">(optionnel)</span>}
+      <label className="block text-sm font-medium text-gray-700 mb-1">
+        {label} {required ? <span className="text-red-400">*</span> : <span className="text-gray-400 font-normal">(optionnel)</span>}
       </label>
-      {hint && <p className="text-xs text-slate-500 mb-1">{hint}</p>}
+      {hint && <p className="text-xs text-gray-400 mb-1">{hint}</p>}
       <textarea
         {...register(name as keyof Step3Data)}
         rows={3}
         placeholder={placeholder}
-        className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition resize-none"
+        className="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700/30 transition resize-none"
       />
     </div>
   );
@@ -38,19 +38,19 @@ export default function Step3({ defaultValues, onChange, onValidChange }: Props)
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="text-xl font-semibold text-white mb-1">Analyse du marché</h2>
-        <p className="text-sm text-slate-400">Décrivez le marché dans lequel vous évoluez. Soyez précis — ces données seront au cœur de votre plan d'affaires.</p>
+        <h2 className="text-xl font-semibold text-gray-900 mb-1">Analyse du marché</h2>
+        <p className="text-sm text-gray-500">Décrivez le marché dans lequel vous évoluez. Soyez précis — ces données seront au cœur de votre plan d'affaires.</p>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-slate-300 mb-1">
+        <label className="block text-sm font-medium text-gray-700 mb-1">
           Industrie / Secteur <span className="text-red-400">*</span>
         </label>
         <input
           {...register("industry", { required: "Requis" })}
           placeholder="Ex. : Restauration rapide santé, Logiciels SaaS B2B, Commerce en ligne de vêtements..."
-          className={`w-full bg-slate-700/50 border rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 transition
-            ${errors.industry ? "border-red-500" : "border-slate-600"}`}
+          className={`w-full bg-white border rounded-lg px-4 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700/30 transition
+            ${errors.industry ? "border-red-500" : "border-gray-300"}`}
         />
         {errors.industry && <p className="mt-1 text-xs text-red-400">{errors.industry.message}</p>}
       </div>

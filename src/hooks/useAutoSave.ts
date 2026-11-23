@@ -21,7 +21,7 @@ export function useAutoSave(planId: string, step: number, delay = 2000) {
         const res = await fetch(`/api/plans/${planId}/step`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ step, data }),
+          body: JSON.stringify({ step, data, autosave: true }),
         });
 
         if (!res.ok) {
