@@ -1,38 +1,49 @@
+/**
+ * Phase 2.6 — Route d'inscription sécurisée
+ * - Validation Zod (serveur)
+ * - Rate limiting Upstash
+ * - Gestion d'erreurs sécurisée (pas d'exposition de détails internes)
+ */
+
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
+import { registerSchema, formatZodError } from "@/lib/schemas";
+import { checkRateLimit } from "@/lib/ratelimit";
+import { z } from "zod";
 
 export async function POST(req: NextRequest) {
+  // 1. Rate limiting
+  const rateLimitResponse = await checkRateLimit(req, "register");
+  if (rateLimitResponse) return rateLimitResponse;
+
   try {
-    const body = await req.json();
-    const { name, email, password, phone } = body;
-
-    // Validation basique
-    if (!name || !email || !password) {
+    // 2. Parse du corps
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
       return NextResponse.json(
-        { error: "Nom, courriel et mot de passe sont requis" },
+        { error: "Corps de la requête invalide" },
         { status: 400 }
       );
     }
 
-    if (password.length < 8) {
+    // 3. Validation Zod (serveur — obligatoire, ne jamais faire confiance au client)
+    const parsed = registerSchema.safeParse(body);
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: "Le mot de passe doit contenir au moins 8 caractères" },
+        { error: formatZodError(parsed.error) },
         { status: 400 }
       );
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        { error: "Adresse courriel invalide" },
-        { status: 400 }
-      );
-    }
+    const { name, email, password, phone } = parsed.data;
 
-    // Vérifier si l'email est déjà utilisé
+    // 4. Vérifier si l'email est déjà utilisé
     const existing = await prisma.user.findUnique({
-      where: { email: email.toLowerCase() },
+      where: { email },
+      select: { id: true },
     });
 
     if (existing) {
@@ -42,14 +53,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Hash du mot de passe
+    // 5. Hash du mot de passe (cost factor 12)
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    // Créer l'utilisateur
+    // 6. Créer l'utilisateur (select minimal — ne pas retourner de données sensibles)
     const user = await prisma.user.create({
       data: {
         name: name.trim(),
-        email: email.toLowerCase().trim(),
+        email,
         passwordHash: hashedPassword,
         phone: phone?.trim() || null,
         role: "USER",
@@ -63,14 +74,18 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json(
-      {
-        message: "Compte créé avec succès",
-        user,
-      },
+      { message: "Compte créé avec succès", user },
       { status: 201 }
     );
   } catch (error) {
-    console.error("[register] erreur:", error);
+    // Log sécurisé : pas de détails sensibles en production
+    if (process.env.NODE_ENV === "development") {
+      console.error("[register] erreur:", error);
+    } else {
+      console.error("[register] erreur interne:", error instanceof Error ? error.message : "unknown");
+    }
+
+    // Ne jamais exposer les détails de l'erreur au client
     return NextResponse.json(
       { error: "Erreur interne du serveur" },
       { status: 500 }
