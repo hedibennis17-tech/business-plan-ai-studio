@@ -4,8 +4,6 @@
  * Ownership check + génération
  */
 
-export const dynamic = "force-dynamic";
-
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -78,7 +76,7 @@ export async function GET(req: NextRequest, { params }: Params) {
       const filename = encodeURIComponent(
         `business-plan-${plan.title.replace(/[^a-z0-9]/gi, "-").toLowerCase()}.pdf`
       );
-      return new NextResponse(pdfBuffer, {
+      return new NextResponse(new Uint8Array(pdfBuffer), {
         status: 200,
         headers: {
           "Content-Type": "application/pdf",
@@ -93,7 +91,7 @@ export async function GET(req: NextRequest, { params }: Params) {
       const filename = encodeURIComponent(
         `business-plan-${plan.title.replace(/[^a-z0-9]/gi, "-").toLowerCase()}.docx`
       );
-      return new NextResponse(docxBuffer, {
+      return new NextResponse(new Uint8Array(docxBuffer), {
         status: 200,
         headers: {
           "Content-Type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",

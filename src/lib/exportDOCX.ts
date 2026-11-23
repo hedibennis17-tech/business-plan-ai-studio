@@ -405,8 +405,8 @@ function createFinancialTable(financials: Record<string, unknown>): (Paragraph |
       bottom: { style: BorderStyle.SINGLE, size: 1, color: COLORS.border },
       left: { style: BorderStyle.SINGLE, size: 1, color: COLORS.border },
       right: { style: BorderStyle.SINGLE, size: 1, color: COLORS.border },
-      insideH: { style: BorderStyle.SINGLE, size: 1, color: COLORS.border },
-      insideV: { style: BorderStyle.SINGLE, size: 1, color: COLORS.border },
+      insideHorizontal: { style: BorderStyle.SINGLE, size: 1, color: COLORS.border },
+      insideVertical: { style: BorderStyle.SINGLE, size: 1, color: COLORS.border },
     },
   });
 
