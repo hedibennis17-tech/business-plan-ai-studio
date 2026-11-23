@@ -20,13 +20,6 @@ const steps = [
   { num: 10, title: "Téléchargement", icon: "📥", desc: "PDF + Word" },
 ];
 
-const navItems = [
-  { icon: "🏠", label: "Tableau de bord", href: "/dashboard", active: true },
-  { icon: "📋", label: "Mon plan", href: "/dashboard", active: false },
-  { icon: "🤖", label: "AI Copilot", href: "/dashboard", active: false },
-  { icon: "⚙️", label: "Paramètres", href: "#", active: false },
-];
-
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
 
@@ -40,7 +33,6 @@ export default async function DashboardPage() {
     ? user.name.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2)
     : (user.email?.[0] ?? "?").toUpperCase();
 
-  // Charger le plan existant de l'utilisateur
   const existingPlan = await prisma.businessPlan.findFirst({
     where: { user: { email: user.email! } },
     orderBy: { updatedAt: "desc" },
@@ -63,14 +55,21 @@ export default async function DashboardPage() {
   });
   const todayCapitalized = today.charAt(0).toUpperCase() + today.slice(1);
 
+  const navItems = [
+    { icon: "🏠", label: "Tableau de bord", href: "/dashboard", active: true },
+    { icon: "📋", label: "Mon plan", href: existingPlan ? `/plan/${existingPlan.id}` : "/dashboard", active: false },
+    { icon: "📄", label: "Documents", href: "/dashboard/documents", active: false },
+    { icon: "⚙️", label: "Paramètres", href: "/dashboard/settings", active: false },
+  ];
+
   return (
-    <div style={{ minHeight: "100vh", display: "flex", background: "var(--qc-off-white)" }}>
+    <div style={{ minHeight: "100vh", display: "flex", background: "var(--bg, #F7F8F6)" }}>
 
       {/* SIDEBAR */}
       <aside style={{
         width: "240px",
         flexShrink: 0,
-        background: "var(--qc-slate-900)",
+        background: "var(--primary, #173F35)",
         display: "flex",
         flexDirection: "column",
         position: "fixed",
@@ -86,16 +85,17 @@ export default async function DashboardPage() {
           <div style={{ display: "flex", alignItems: "center", gap: "0.625rem" }}>
             <div style={{
               width: "2rem", height: "2rem", borderRadius: "0.5rem",
-              background: "var(--qc-blue)", display: "flex", alignItems: "center", justifyContent: "center",
+              background: "var(--accent, #D6A84F)",
+              display: "flex", alignItems: "center", justifyContent: "center",
               flexShrink: 0,
             }}>
-              <span style={{ color: "var(--qc-gold)", fontSize: "0.95rem" }}>⚜</span>
+              <span style={{ color: "var(--primary, #173F35)", fontSize: "0.875rem", fontWeight: 800 }}>✦</span>
             </div>
             <div>
               <div style={{ color: "white", fontWeight: 800, fontSize: "0.8rem", lineHeight: 1.1, letterSpacing: "-0.01em" }}>
                 Business Plan
               </div>
-              <div style={{ color: "var(--qc-gold)", fontWeight: 700, fontSize: "0.7rem", letterSpacing: "0.04em" }}>
+              <div style={{ color: "var(--accent, #D6A84F)", fontWeight: 700, fontSize: "0.7rem", letterSpacing: "0.04em" }}>
                 AI STUDIO
               </div>
             </div>
@@ -124,12 +124,12 @@ export default async function DashboardPage() {
                   borderRadius: "0.5rem",
                   marginBottom: "0.125rem",
                   textDecoration: "none",
-                  background: item.active ? "rgba(0,61,165,0.5)" : "transparent",
-                  color: item.active ? "white" : "rgba(255,255,255,0.55)",
+                  background: item.active ? "rgba(214,168,79,0.15)" : "transparent",
+                  color: item.active ? "var(--accent, #D6A84F)" : "rgba(255,255,255,0.55)",
                   fontWeight: item.active ? 600 : 400,
                   fontSize: "0.875rem",
                   transition: "background 0.15s, color 0.15s",
-                  borderLeft: item.active ? "2px solid var(--qc-blue-light)" : "2px solid transparent",
+                  borderLeft: item.active ? "2px solid var(--accent, #D6A84F)" : "2px solid transparent",
                 }}
               >
                 <span style={{ fontSize: "1rem", flexShrink: 0 }}>{item.icon}</span>
@@ -147,10 +147,10 @@ export default async function DashboardPage() {
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem" }}>
             <div style={{
               width: "2.25rem", height: "2.25rem", borderRadius: "50%",
-              background: "linear-gradient(135deg, var(--qc-blue), var(--qc-blue-light))",
-              color: "white", display: "flex", alignItems: "center", justifyContent: "center",
+              background: "var(--accent, #D6A84F)",
+              color: "var(--primary, #173F35)",
+              display: "flex", alignItems: "center", justifyContent: "center",
               fontWeight: 800, fontSize: "0.8rem", flexShrink: 0,
-              border: "2px solid rgba(255,255,255,0.15)",
             }}>
               {initials}
             </div>
@@ -169,7 +169,7 @@ export default async function DashboardPage() {
               display: "flex", alignItems: "center", gap: "0.5rem",
               color: "rgba(255,255,255,0.4)", textDecoration: "none",
               fontSize: "0.8rem", padding: "0.5rem 0.625rem", borderRadius: "0.375rem",
-              transition: "color 0.15s, background 0.15s",
+              transition: "color 0.15s",
             }}
           >
             <span>→</span> Déconnexion
@@ -183,7 +183,7 @@ export default async function DashboardPage() {
         {/* Top bar */}
         <header style={{
           background: "white",
-          borderBottom: "1px solid var(--border)",
+          borderBottom: "1px solid var(--border, #d6e0dc)",
           padding: "0 2rem",
           position: "sticky", top: 0, zIndex: 30,
         }}>
@@ -192,10 +192,10 @@ export default async function DashboardPage() {
             alignItems: "center", justifyContent: "space-between",
           }}>
             <div>
-              <div style={{ fontWeight: 800, fontSize: "1.05rem", color: "var(--qc-slate-900)" }}>
+              <div style={{ fontWeight: 800, fontSize: "1.05rem", color: "var(--text, #182522)" }}>
                 Tableau de bord
               </div>
-              <div style={{ color: "var(--qc-slate-400)", fontSize: "0.75rem" }}>
+              <div style={{ color: "var(--text-muted, #6b8278)", fontSize: "0.75rem" }}>
                 {todayCapitalized}
               </div>
             </div>
@@ -203,22 +203,23 @@ export default async function DashboardPage() {
               {/* Plan badge */}
               <div style={{
                 display: "flex", alignItems: "center", gap: "0.5rem",
-                background: "var(--qc-blue-muted)", borderRadius: "9999px",
+                background: "var(--primary-muted, #eaf2ef)", borderRadius: "9999px",
                 padding: "0.375rem 0.875rem",
               }}>
                 <div style={{
                   width: "0.5rem", height: "0.5rem", borderRadius: "50%",
-                  background: "var(--qc-blue)",
+                  background: "var(--primary, #173F35)",
                 }} />
-                <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--qc-blue)" }}>
+                <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "var(--primary, #173F35)" }}>
                   Plan gratuit
                 </span>
               </div>
               {/* Avatar */}
               <div style={{
                 width: "2.25rem", height: "2.25rem", borderRadius: "50%",
-                background: "linear-gradient(135deg, var(--qc-blue), var(--qc-blue-light))",
-                color: "white", display: "flex", alignItems: "center", justifyContent: "center",
+                background: "var(--accent, #D6A84F)",
+                color: "var(--primary, #173F35)",
+                display: "flex", alignItems: "center", justifyContent: "center",
                 fontWeight: 800, fontSize: "0.8rem",
               }}>
                 {initials}
@@ -233,12 +234,12 @@ export default async function DashboardPage() {
           {/* Welcome */}
           <div style={{ marginBottom: "1.75rem" }}>
             <h1 style={{
-              fontSize: "1.75rem", fontWeight: 800, color: "var(--qc-slate-900)",
+              fontSize: "1.75rem", fontWeight: 800, color: "var(--text, #182522)",
               marginBottom: "0.375rem", letterSpacing: "-0.02em",
             }}>
               Bonjour, {firstName} 👋
             </h1>
-            <p style={{ color: "var(--qc-slate-500)", fontSize: "0.95rem" }}>
+            <p style={{ color: "var(--text-secondary, #3d5450)", fontSize: "0.95rem" }}>
               {completedSteps.length === 0
                 ? "Prêt à lancer votre plan d'affaires professionnel ?"
                 : "Continuez la création de votre plan d'affaires professionnel."}
@@ -253,20 +254,20 @@ export default async function DashboardPage() {
             marginBottom: "1.75rem",
           }}>
             {[
-              { label: "Progression", value: `${progress}%`, color: "var(--qc-blue)", bg: "var(--qc-blue-muted)", icon: "📈" },
-              { label: "Étapes complétées", value: `${completedSteps.length}/10`, color: "var(--qc-success)", bg: "rgba(22,163,74,0.08)", icon: "✅" },
-              { label: "Étape actuelle", value: `Étape ${currentStep}`, color: "var(--qc-warning)", bg: "rgba(217,119,6,0.08)", icon: "🎯" },
-              { label: "Export", value: "499 $ CAD", color: "var(--qc-slate-700)", bg: "var(--qc-slate-100)", icon: "📄" },
+              { label: "Progression", value: `${progress}%`, color: "var(--primary, #173F35)", bg: "var(--primary-muted, #eaf2ef)", icon: "📈" },
+              { label: "Étapes complétées", value: `${completedSteps.length}/10`, color: "var(--success, #16a34a)", bg: "rgba(22,163,74,0.08)", icon: "✅" },
+              { label: "Étape actuelle", value: `Étape ${currentStep}`, color: "var(--warning, #d97706)", bg: "rgba(217,119,6,0.08)", icon: "🎯" },
+              { label: "Export", value: "499 $ CAD", color: "var(--accent, #D6A84F)", bg: "var(--accent-muted, #fdf5e6)", icon: "📄" },
             ].map((stat) => (
               <div key={stat.label} style={{
                 background: "white",
                 borderRadius: "0.875rem",
                 padding: "1.25rem",
-                border: "1px solid var(--border)",
-                boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+                border: "1px solid var(--border, #d6e0dc)",
+                boxShadow: "0 1px 3px rgba(23,63,53,0.04)",
               }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.5rem" }}>
-                  <div style={{ fontSize: "0.75rem", color: "var(--qc-slate-500)", fontWeight: 500 }}>{stat.label}</div>
+                  <div style={{ fontSize: "0.75rem", color: "var(--text-muted, #6b8278)", fontWeight: 500 }}>{stat.label}</div>
                   <div style={{
                     width: "1.75rem", height: "1.75rem", borderRadius: "0.375rem",
                     background: stat.bg, display: "flex", alignItems: "center", justifyContent: "center",
@@ -286,42 +287,42 @@ export default async function DashboardPage() {
           <div style={{
             background: "white",
             borderRadius: "1.25rem",
-            border: "1px solid var(--border)",
+            border: "1px solid var(--border, #d6e0dc)",
             overflow: "hidden",
             marginBottom: "1.75rem",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+            boxShadow: "0 2px 8px rgba(23,63,53,0.06)",
           }}>
             {/* Card header */}
             <div style={{
               padding: "1.5rem 1.75rem",
-              borderBottom: "1px solid var(--border)",
+              borderBottom: "1px solid var(--border, #d6e0dc)",
               display: "flex", justifyContent: "space-between",
               alignItems: "center", flexWrap: "wrap", gap: "1rem",
             }}>
               <div>
                 <div style={{
-                  fontSize: "0.7rem", fontWeight: 700, color: "var(--qc-blue)",
+                  fontSize: "0.7rem", fontWeight: 700, color: "var(--accent, #D6A84F)",
                   letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.25rem",
                 }}>
                   {completedSteps.length === 0 ? "Nouveau plan d'affaires" : "Plan d'affaires en cours"}
                 </div>
-                <h2 style={{ fontSize: "1.25rem", fontWeight: 800, color: "var(--qc-slate-900)", letterSpacing: "-0.01em" }}>
+                <h2 style={{ fontSize: "1.25rem", fontWeight: 800, color: "var(--text, #182522)", letterSpacing: "-0.01em" }}>
                   {completedSteps.length === 0 ? "Démarrez votre projet" : "Mon plan d'affaires"}
                 </h2>
-                <p style={{ color: "var(--qc-slate-500)", fontSize: "0.845rem", marginTop: "0.2rem" }}>
+                <p style={{ color: "var(--text-muted, #6b8278)", fontSize: "0.845rem", marginTop: "0.2rem" }}>
                   {completedSteps.length === 0
                     ? "Répondez aux questions guidées — l'IA génère votre plan complet."
                     : `Étape ${currentStep} sur 10 · ${progress}% complété`}
                 </p>
               </div>
-              <div className="flex items-center gap-3 flex-wrap">
+              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap" }}>
                 <StartPlanButton existingPlan={existingPlan ?? null} />
                 {existingPlan?.generationStatus === "GENERATED" && (
                   <Link
                     href={`/plan/${existingPlan.id}`}
                     style={{
                       display: "inline-flex", alignItems: "center", gap: "0.4rem",
-                      background: "var(--qc-success)", color: "white",
+                      background: "var(--success, #16a34a)", color: "white",
                       padding: "0.6rem 1.1rem", borderRadius: "0.625rem",
                       fontWeight: 600, fontSize: "0.9rem", textDecoration: "none",
                     }}
@@ -333,10 +334,10 @@ export default async function DashboardPage() {
             </div>
 
             {/* Progress */}
-            <div style={{ padding: "1.25rem 1.75rem", borderBottom: "1px solid var(--border)" }}>
+            <div style={{ padding: "1.25rem 1.75rem", borderBottom: "1px solid var(--border, #d6e0dc)" }}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.625rem" }}>
-                <span style={{ fontWeight: 600, fontSize: "0.85rem", color: "var(--qc-slate-700)" }}>Progression globale</span>
-                <span style={{ fontWeight: 800, color: "var(--qc-blue)", fontSize: "0.85rem" }}>{progress}%</span>
+                <span style={{ fontWeight: 600, fontSize: "0.85rem", color: "var(--text-secondary, #3d5450)" }}>Progression globale</span>
+                <span style={{ fontWeight: 800, color: "var(--primary, #173F35)", fontSize: "0.85rem" }}>{progress}%</span>
               </div>
               <div className="progress-bar">
                 <div className="progress-fill" style={{ width: `${progress}%` }} />
@@ -363,13 +364,13 @@ export default async function DashboardPage() {
                         background: isCompleted
                           ? "rgba(22,163,74,0.06)"
                           : isCurrent
-                          ? "var(--qc-blue-muted)"
-                          : "var(--qc-off-white)",
+                          ? "var(--primary-muted, #eaf2ef)"
+                          : "var(--bg, #F7F8F6)",
                         border: isCurrent
-                          ? "2px solid var(--qc-blue)"
+                          ? "2px solid var(--primary, #173F35)"
                           : isCompleted
                           ? "1px solid rgba(22,163,74,0.2)"
-                          : "1px solid var(--border)",
+                          : "1px solid var(--border, #d6e0dc)",
                         opacity: isLocked ? 0.45 : 1,
                         transition: "opacity 0.2s",
                       }}
@@ -380,16 +381,16 @@ export default async function DashboardPage() {
                       <div style={{
                         fontSize: "0.72rem", fontWeight: 700,
                         color: isCompleted
-                          ? "var(--qc-success)"
+                          ? "var(--success, #16a34a)"
                           : isCurrent
-                          ? "var(--qc-blue)"
-                          : "var(--qc-slate-500)",
+                          ? "var(--primary, #173F35)"
+                          : "var(--text-muted, #6b8278)",
                         marginBottom: "0.1rem",
                         lineHeight: 1.3,
                       }}>
                         {step.title}
                       </div>
-                      <div style={{ fontSize: "0.65rem", color: "var(--qc-slate-400)", lineHeight: 1.3 }}>
+                      <div style={{ fontSize: "0.65rem", color: "var(--text-muted, #6b8278)", lineHeight: 1.3 }}>
                         {step.desc}
                       </div>
                     </div>
@@ -401,7 +402,7 @@ export default async function DashboardPage() {
 
           {/* AI Copilot banner */}
           <div style={{
-            background: "linear-gradient(135deg, var(--qc-blue-dark) 0%, var(--qc-blue) 60%, var(--qc-blue-light) 100%)",
+            background: "linear-gradient(135deg, var(--primary-dark, #0f2b24) 0%, var(--primary, #173F35) 60%, var(--primary-mid, #245B4B) 100%)",
             borderRadius: "1.25rem",
             padding: "1.75rem",
             color: "white",
@@ -409,21 +410,22 @@ export default async function DashboardPage() {
             gap: "1.5rem",
             alignItems: "center",
             flexWrap: "wrap",
-            boxShadow: "0 4px 20px rgba(0,61,165,0.25)",
+            boxShadow: "0 4px 20px rgba(23,63,53,0.25)",
             position: "relative",
             overflow: "hidden",
+            marginBottom: "1.75rem",
           }}>
             <div style={{
               position: "absolute", right: "-2rem", top: "-2rem",
               width: "10rem", height: "10rem", borderRadius: "50%",
-              background: "rgba(255,255,255,0.05)", pointerEvents: "none",
+              background: "rgba(255,255,255,0.04)", pointerEvents: "none",
             }} />
             <div style={{
               width: "3.5rem", height: "3.5rem", borderRadius: "1rem",
-              background: "rgba(255,255,255,0.15)",
+              background: "rgba(214,168,79,0.15)",
               display: "flex", alignItems: "center", justifyContent: "center",
               fontSize: "1.75rem", flexShrink: 0,
-              border: "1px solid rgba(255,255,255,0.2)",
+              border: "1px solid rgba(214,168,79,0.3)",
             }}>
               🤖
             </div>
@@ -431,24 +433,22 @@ export default async function DashboardPage() {
               <div style={{ fontWeight: 800, fontSize: "1.05rem", marginBottom: "0.3rem" }}>
                 AI Copilot disponible
               </div>
-              <p style={{ color: "rgba(255,255,255,0.75)", fontSize: "0.875rem", lineHeight: 1.6 }}>
+              <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "0.875rem", lineHeight: 1.6 }}>
                 Votre assistant IA est prêt. Il vous guide à chaque étape, détecte les incohérences et génère votre plan complet.
               </p>
             </div>
             <Link
-              href="/plan/step/1"
+              href={existingPlan ? `/questionnaire/${existingPlan.id}` : "/dashboard"}
               style={{
-                background: "rgba(255,255,255,0.15)",
-                color: "white",
+                background: "var(--accent, #D6A84F)",
+                color: "var(--primary, #173F35)",
                 padding: "0.75rem 1.5rem",
                 borderRadius: "0.625rem",
-                fontWeight: 600,
+                fontWeight: 700,
                 textDecoration: "none",
-                border: "1px solid rgba(255,255,255,0.25)",
                 fontSize: "0.875rem",
                 whiteSpace: "nowrap",
                 flexShrink: 0,
-                backdropFilter: "blur(8px)",
               }}
             >
               Ouvrir l&apos;assistant →
@@ -457,11 +457,10 @@ export default async function DashboardPage() {
 
           {/* Help footer */}
           <div style={{
-            marginTop: "1.75rem",
             padding: "1.25rem 1.5rem",
             background: "white",
             borderRadius: "0.875rem",
-            border: "1px solid var(--border)",
+            border: "1px solid var(--border, #d6e0dc)",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
@@ -469,20 +468,20 @@ export default async function DashboardPage() {
             flexWrap: "wrap",
           }}>
             <div>
-              <div style={{ fontWeight: 700, fontSize: "0.9rem", color: "var(--qc-slate-900)", marginBottom: "0.2rem" }}>
+              <div style={{ fontWeight: 700, fontSize: "0.9rem", color: "var(--text, #182522)", marginBottom: "0.2rem" }}>
                 Besoin d&apos;aide ?
               </div>
-              <div style={{ fontSize: "0.8rem", color: "var(--qc-slate-500)" }}>
+              <div style={{ fontSize: "0.8rem", color: "var(--text-muted, #6b8278)" }}>
                 Notre documentation couvre toutes les étapes du parcours.
               </div>
             </div>
             <Link
               href="#"
               style={{
-                color: "var(--qc-blue)", textDecoration: "none",
+                color: "var(--primary, #173F35)", textDecoration: "none",
                 fontWeight: 600, fontSize: "0.85rem",
                 padding: "0.5rem 1rem",
-                border: "1.5px solid var(--qc-blue)",
+                border: "1.5px solid var(--primary, #173F35)",
                 borderRadius: "0.5rem",
                 flexShrink: 0,
               }}

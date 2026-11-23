@@ -1,112 +1,117 @@
 @import "tailwindcss";
 
 /* =============================================
-   BUSINESS PLAN AI STUDIO — Thème Québec Premium
-   Phase 2.5 — UI Premium
+   BUSINESS PLAN AI STUDIO — Design System Premium
+   Phase 5 — Forest Green + Gold
    ============================================= */
 
 :root {
-  /* Couleurs principales — Bleu Québec */
-  --qc-blue: #003DA5;
-  --qc-blue-dark: #002B75;
-  --qc-blue-light: #1a56cc;
-  --qc-blue-muted: #e8eeff;
+  /* Couleurs principales — Forest Green */
+  --primary: #173F35;
+  --primary-dark: #0f2b24;
+  --primary-mid: #245B4B;
+  --primary-light: #2d7a63;
+  --primary-muted: #eaf2ef;
 
-  /* Couleurs d'accentuation */
-  --qc-gold: #C9A84C;
-  --qc-gold-light: #f0d882;
-  --qc-white: #FFFFFF;
-  --qc-off-white: #F8F9FC;
+  /* Accent or / Gold */
+  --accent: #D6A84F;
+  --accent-light: #f0d882;
+  --accent-dark: #b8882e;
+  --accent-muted: #fdf5e6;
 
   /* Neutres */
-  --qc-slate-900: #0f172a;
-  --qc-slate-800: #1e293b;
-  --qc-slate-700: #334155;
-  --qc-slate-500: #64748b;
-  --qc-slate-300: #cbd5e1;
-  --qc-slate-100: #f1f5f9;
+  --bg: #F7F8F6;
+  --surface: #FFFFFF;
+  --text: #182522;
+  --text-secondary: #3d5450;
+  --text-muted: #6b8278;
+  --border: #d6e0dc;
+  --border-light: #eaf2ef;
 
   /* Statuts */
-  --qc-success: #16a34a;
-  --qc-warning: #d97706;
-  --qc-error: #dc2626;
+  --success: #16a34a;
+  --success-bg: rgba(22,163,74,0.08);
+  --warning: #d97706;
+  --warning-bg: rgba(217,119,6,0.08);
+  --error: #dc2626;
+  --error-bg: rgba(220,38,38,0.08);
+  --info: #0369a1;
+  --info-bg: rgba(3,105,161,0.08);
 
-  /* Variables Tailwind/CSS */
-  --background: var(--qc-off-white);
-  --foreground: var(--qc-slate-900);
-  --card: var(--qc-white);
-  --card-foreground: var(--qc-slate-900);
-  --primary: var(--qc-blue);
-  --primary-foreground: var(--qc-white);
-  --secondary: var(--qc-slate-100);
-  --secondary-foreground: var(--qc-slate-700);
-  --muted: var(--qc-slate-100);
-  --muted-foreground: var(--qc-slate-500);
-  --accent: var(--qc-gold);
-  --accent-foreground: var(--qc-slate-900);
-  --border: var(--qc-slate-300);
-  --radius: 0.5rem;
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(23,63,53,0.06);
+  --shadow-md: 0 4px 16px rgba(23,63,53,0.1);
+  --shadow-lg: 0 8px 32px rgba(23,63,53,0.15);
+
+  /* Radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: var(--qc-slate-900);
-    --foreground: var(--qc-off-white);
-    --card: var(--qc-slate-800);
-    --card-foreground: var(--qc-off-white);
-    --secondary: var(--qc-slate-800);
-    --secondary-foreground: var(--qc-slate-300);
-    --muted: var(--qc-slate-800);
-    --muted-foreground: var(--qc-slate-500);
-    --border: var(--qc-slate-700);
-  }
-}
-
-* {
+/* Reset */
+*, *::before, *::after {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
 
-body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  -webkit-font-smoothing: antialiased;
+html {
+  scroll-behavior: smooth;
 }
 
-/* Typographie premium */
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =============================================
+   TYPOGRAPHIE
+   ============================================= */
+
 .heading-hero {
   font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.02em;
+  color: var(--text);
 }
 
 .heading-section {
   font-size: clamp(1.75rem, 3vw, 2.5rem);
   font-weight: 700;
   line-height: 1.2;
+  color: var(--text);
 }
 
-/* Gradient Québec */
-.gradient-qc {
-  background: linear-gradient(135deg, var(--qc-blue-dark) 0%, var(--qc-blue) 50%, var(--qc-blue-light) 100%);
+/* =============================================
+   GRADIENTS
+   ============================================= */
+
+.gradient-primary {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-mid) 100%);
 }
 
-.gradient-qc-gold {
-  background: linear-gradient(135deg, var(--qc-blue) 0%, var(--qc-gold) 100%);
+.gradient-primary-gold {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Bouton primaire premium */
+/* =============================================
+   BOUTONS
+   ============================================= */
+
 .btn-primary {
-  background: var(--qc-blue);
+  background: var(--primary);
   color: white;
   padding: 0.75rem 2rem;
-  border-radius: 0.5rem;
+  border-radius: var(--radius-sm);
   font-weight: 600;
   font-size: 1rem;
   transition: all 0.2s;
@@ -115,30 +120,152 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  text-decoration: none;
 }
 
 .btn-primary:hover {
-  background: var(--qc-blue-dark);
+  background: var(--primary-dark);
   transform: translateY(-1px);
-  box-shadow: 0 8px 25px rgba(0, 61, 165, 0.3);
+  box-shadow: 0 8px 25px rgba(23,63,53,0.3);
 }
 
-/* Card premium */
-.card-premium {
-  background: var(--card);
+.btn-primary:disabled {
+  background: var(--border) !important;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: var(--primary-dark);
+  padding: 0.75rem 2rem;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.btn-accent:hover {
+  background: var(--accent-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 25px rgba(214,168,79,0.35);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--primary);
+  padding: 0.75rem 2rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s;
+  border: 1.5px solid var(--primary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.btn-outline:hover {
+  background: var(--primary-muted);
+}
+
+/* =============================================
+   CARDS
+   ============================================= */
+
+.card {
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 1rem;
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.card-premium {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
   padding: 2rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  transition: box-shadow 0.2s, transform 0.2s;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
 }
 
 .card-premium:hover {
-  box-shadow: 0 8px 30px rgba(0, 61, 165, 0.1);
+  box-shadow: var(--shadow-md);
   transform: translateY(-2px);
+  border-color: rgba(23,63,53,0.15);
 }
 
-/* Badge step */
+/* =============================================
+   BADGES / STATUS
+   ============================================= */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge-primary {
+  background: var(--primary-muted);
+  color: var(--primary);
+}
+
+.badge-success {
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.badge-warning {
+  background: var(--warning-bg);
+  color: var(--warning);
+}
+
+.badge-error {
+  background: var(--error-bg);
+  color: var(--error);
+}
+
+.badge-accent {
+  background: var(--accent-muted);
+  color: var(--accent-dark);
+}
+
+/* =============================================
+   PROGRESS
+   ============================================= */
+
+.progress-bar {
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: var(--border);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  transition: width 0.5s ease;
+}
+
+/* =============================================
+   STEP BADGE
+   ============================================= */
+
 .step-badge {
   display: inline-flex;
   align-items: center;
@@ -146,96 +273,123 @@ body {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
-  background: var(--qc-blue);
+  background: var(--primary);
   color: white;
   font-weight: 700;
   font-size: 0.875rem;
+  flex-shrink: 0;
 }
 
 .step-badge.completed {
-  background: var(--qc-success);
+  background: var(--success);
 }
 
 .step-badge.locked {
-  background: var(--qc-slate-300);
-  color: var(--qc-slate-500);
+  background: var(--border);
+  color: var(--text-muted);
 }
 
-/* Progress bar */
-.progress-bar {
-  height: 0.5rem;
-  border-radius: 9999px;
-  background: var(--qc-slate-200, #e2e8f0);
-  overflow: hidden;
-}
+/* =============================================
+   ACCENT LINE DÉCORATIVE
+   ============================================= */
 
-.progress-fill {
-  height: 100%;
-  border-radius: 9999px;
-  background: linear-gradient(90deg, var(--qc-blue), var(--qc-blue-light));
-  transition: width 0.5s ease;
-}
-
-/* Fleur de lys décorative (SVG inline via CSS) */
-.qc-accent-line {
+.accent-line {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  color: var(--qc-gold);
+  color: var(--accent);
   font-size: 0.875rem;
   font-weight: 500;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
-.qc-accent-line::before,
-.qc-accent-line::after {
-  content: '⚜';
-  font-size: 1rem;
+.accent-line::before,
+.accent-line::after {
+  content: '✦';
+  font-size: 0.75rem;
 }
 
 /* =============================================
-   Phase 2.5 — Responsive Design
+   SIDEBAR
    ============================================= */
 
-/* Mobile: masquer le panel gauche des pages auth */
+.sidebar-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.125rem;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: background 0.15s, color 0.15s;
+  border-left: 2px solid transparent;
+  color: rgba(255,255,255,0.55);
+  font-weight: 400;
+}
+
+.sidebar-nav-link:hover {
+  background: rgba(255,255,255,0.08) !important;
+  color: rgba(255,255,255,0.9) !important;
+}
+
+.sidebar-nav-link.active {
+  background: rgba(214,168,79,0.15);
+  color: var(--accent);
+  font-weight: 600;
+  border-left-color: var(--accent);
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+
 @media (max-width: 768px) {
-  /* Split-screen auth: masquer le panneau branding */
   .auth-brand-panel {
     display: none !important;
   }
 
-  /* Sidebar dashboard: masquer sur mobile */
   .dashboard-sidebar {
     display: none !important;
   }
 
-  /* Ajuster le contenu principal sans sidebar */
   .dashboard-main {
     margin-left: 0 !important;
   }
 }
 
-/* Tablet: réduire la sidebar */
-@media (max-width: 1024px) and (min-width: 769px) {
-  /* Auth panels: réduire le ratio */
-}
+/* =============================================
+   ACCESSIBILITÉ
+   ============================================= */
 
-/* Focus visible pour accessibilité */
 a:focus-visible,
 button:focus-visible,
-input:focus-visible {
-  outline: 2px solid var(--qc-blue);
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
   border-radius: 0.25rem;
 }
 
-/* Smooth scroll */
-html {
-  scroll-behavior: smooth;
+/* =============================================
+   INPUTS
+   ============================================= */
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--primary) !important;
+  background: white !important;
+  box-shadow: 0 0 0 3px rgba(23,63,53,0.08);
+  outline: none;
 }
 
-/* Animations subtiles */
+/* =============================================
+   ANIMATIONS
+   ============================================= */
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -247,43 +401,48 @@ html {
   }
 }
 
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
 .animate-fade-in-up {
   animation: fadeInUp 0.4s ease both;
 }
 
-/* Input states premium */
-input:focus {
-  border-color: var(--qc-blue) !important;
-  background: white !important;
-  box-shadow: 0 0 0 3px rgba(0, 61, 165, 0.08);
+.animate-spin {
+  animation: spin 1s linear infinite;
 }
 
-/* Button hover states */
-.btn-primary:disabled {
-  background: var(--qc-slate-300) !important;
-  cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Sidebar nav link hover */
-.sidebar-nav-link:hover {
-  background: rgba(255,255,255,0.08) !important;
-  color: rgba(255,255,255,0.9) !important;
+/* =============================================
+   SKELETON LOADERS
+   ============================================= */
+
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
 }
 
-/* Card hover premium amélioré */
-.card-premium {
-  transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+.skeleton {
+  background: linear-gradient(90deg, var(--border-light) 25%, var(--border) 50%, var(--border-light) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
 }
 
-.card-premium:hover {
-  box-shadow: 0 12px 36px rgba(0, 61, 165, 0.12);
-  transform: translateY(-3px);
-  border-color: rgba(0, 61, 165, 0.15);
-}
+/* =============================================
+   SCROLLBAR
+   ============================================= */
 
-/* Scrollbar custom */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -294,16 +453,19 @@ input:focus {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--qc-slate-300);
+  background: var(--border);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--qc-slate-500);
+  background: var(--text-muted);
 }
 
-/* Selection */
+/* =============================================
+   SELECTION
+   ============================================= */
+
 ::selection {
-  background: rgba(0, 61, 165, 0.15);
-  color: var(--qc-blue-dark);
+  background: rgba(23,63,53,0.15);
+  color: var(--primary-dark);
 }
