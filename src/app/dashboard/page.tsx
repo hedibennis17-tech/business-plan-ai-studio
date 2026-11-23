@@ -22,8 +22,8 @@ const steps = [
 
 const navItems = [
   { icon: "🏠", label: "Tableau de bord", href: "/dashboard", active: true },
-  { icon: "📋", label: "Mon plan", href: "/plan/step/1", active: false },
-  { icon: "🤖", label: "AI Copilot", href: "/plan/step/1", active: false },
+  { icon: "📋", label: "Mon plan", href: "/dashboard", active: false },
+  { icon: "🤖", label: "AI Copilot", href: "/dashboard", active: false },
   { icon: "⚙️", label: "Paramètres", href: "#", active: false },
 ];
 
@@ -50,6 +50,7 @@ export default async function DashboardPage() {
       status: true,
       currentStep: true,
       completedSteps: true,
+      generationStatus: true,
     },
   });
 
@@ -313,7 +314,22 @@ export default async function DashboardPage() {
                     : `Étape ${currentStep} sur 10 · ${progress}% complété`}
                 </p>
               </div>
-              <StartPlanButton existingPlan={existingPlan ?? null} />
+              <div className="flex items-center gap-3 flex-wrap">
+                <StartPlanButton existingPlan={existingPlan ?? null} />
+                {existingPlan?.generationStatus === "GENERATED" && (
+                  <Link
+                    href={`/plan/${existingPlan.id}`}
+                    style={{
+                      display: "inline-flex", alignItems: "center", gap: "0.4rem",
+                      background: "var(--qc-success)", color: "white",
+                      padding: "0.6rem 1.1rem", borderRadius: "0.625rem",
+                      fontWeight: 600, fontSize: "0.9rem", textDecoration: "none",
+                    }}
+                  >
+                    ✅ Voir mon business plan
+                  </Link>
+                )}
+              </div>
             </div>
 
             {/* Progress */}

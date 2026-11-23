@@ -20,6 +20,9 @@ enum PlanStatus {
   REVIEW
   COMPLETE
   READY_FOR_GENERATION
+  GENERATING
+  GENERATED
+  GENERATION_FAILED
 }
 
 enum PaymentStatus {
@@ -129,6 +132,20 @@ model BusinessPlan {
 
   // ── Étape 10 — Validation et finalisation ────────────────────────────────
   step10Data Json? // { validatedAt, missingFields, notes }
+
+  // ── Phase 4 — Génération IA ───────────────────────────────────────────────
+  generationStatus   String?  // GENERATING | GENERATED | GENERATION_FAILED
+  generationStarted  DateTime?
+  generationFinished DateTime?
+  generationError    String?
+  generationVersion  String?  // ex: "claude-opus-4-5"
+  generationCount    Int      @default(0)
+
+  // Sections générées (JSONB — une clé par section)
+  generatedSections Json? // { coverPage, executiveSummary, company, ... }
+
+  // Hypothèses financières utilisées pour la génération
+  financialAssumptions Json?
 
   // Paiement
   isPaid Boolean   @default(false)
