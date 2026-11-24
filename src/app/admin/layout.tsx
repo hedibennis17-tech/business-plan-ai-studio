@@ -1,10 +1,10 @@
+export const instant = false;
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { isAdminRole } from "@/lib/admin/rbac";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 
-export const dynamic = "force-dynamic";
 
 export default async function AdminLayout({
   children,

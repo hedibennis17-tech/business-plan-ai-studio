@@ -1,10 +1,10 @@
+export const instant = false;
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { hasPermission, ROLE_LABELS } from "@/lib/admin/rbac";
 import { queryRaw } from "@/lib/admin/db";
 
-export const dynamic = "force-dynamic";
 
 interface AuditLog {
   id: string;

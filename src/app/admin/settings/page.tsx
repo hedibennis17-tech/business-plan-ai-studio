@@ -1,3 +1,4 @@
+export const instant = false;
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -5,7 +6,6 @@ import { redirect } from "next/navigation";
 import { hasPermission } from "@/lib/admin/rbac";
 import { queryRaw } from "@/lib/admin/db";
 
-export const dynamic = "force-dynamic";
 
 export default async function AdminSettingsPage() {
   const session = await getServerSession(authOptions);

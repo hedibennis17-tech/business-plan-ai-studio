@@ -66,9 +66,12 @@ export default withAuth(
       if (rateLimitResponse) return rateLimitResponse;
     }
 
-    // Redirection admin → dashboard si rôle insuffisant
-    if (path.startsWith("/admin") && token?.role !== "ADMIN") {
-      return NextResponse.redirect(new URL("/dashboard", req.url));
+    // Protection routes /admin — RBAC multi-rôles
+    if (path.startsWith("/admin")) {
+      const adminRoles = ["SUPER_ADMIN", "ADMIN", "SUPPORT", "FINANCE"];
+      if (!token?.role || !adminRoles.includes(token.role as string)) {
+        return NextResponse.redirect(new URL("/dashboard?error=unauthorized", req.url));
+      }
     }
 
     const response = NextResponse.next();
