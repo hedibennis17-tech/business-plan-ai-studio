@@ -55,11 +55,19 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger }) {
       if (user) {
         token.id = user.id;
         // @ts-expect-error — role est dans notre User Prisma mais pas dans le type next-auth User par défaut
         token.role = user.role;
+      }
+      // Re-fetch le rôle depuis la DB à chaque session update (changement de rôle admin)
+      if (trigger === "update" && token.id) {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: token.id as string },
+          select: { role: true },
+        });
+        if (dbUser) token.role = dbUser.role;
       }
       return token;
     },

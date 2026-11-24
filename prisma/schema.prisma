@@ -12,6 +12,9 @@ datasource db {
 enum Role {
   USER
   ADMIN
+  SUPER_ADMIN
+  SUPPORT
+  FINANCE
 }
 
 enum PlanStatus {
@@ -185,4 +188,17 @@ model EmailLog {
   status    String   @default("sent")
   metadata  Json?
   createdAt DateTime @default(now())
+}
+
+model AdminAuditLog {
+  id         String   @id @default(cuid())
+  adminId    String
+  adminEmail String
+  adminRole  Role
+  action     String   // USER_SUSPEND, USER_REACTIVATE, ROLE_CHANGE, PLAN_DELETE, etc.
+  targetType String?  // USER | PLAN | SYSTEM
+  targetId   String?
+  details    Json?
+  ipAddress  String?
+  createdAt  DateTime @default(now())
 }
