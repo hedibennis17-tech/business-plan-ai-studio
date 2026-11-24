@@ -108,14 +108,14 @@ export default function GenerateButton({
       )}
 
       {isGenerating && (
-        <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
+        <div className="rounded-lg p-4" style={{ border: "1px solid rgba(23,63,53,0.2)", background: "rgba(23,63,53,0.05)" }}>
           <div className="flex items-center gap-3">
-            <div className="h-5 w-5 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
+            <div className="h-5 w-5 animate-spin rounded-full border-2" style={{ borderColor: "rgba(23,63,53,0.3)", borderTopColor: "var(--primary, #173F35)" }} />
             <div>
-              <p className="text-sm font-medium text-blue-800">
+              <p className="text-sm font-medium" style={{ color: "var(--primary, #173F35)" }}>
                 Génération en cours…
               </p>
-              <p className="text-xs text-blue-600 mt-0.5">
+              <p className="text-xs mt-0.5" style={{ color: "var(--text-secondary, #3d5450)" }}>
                 L&apos;IA rédige votre plan d&apos;affaires. Cela peut prendre 1-2 minutes.
               </p>
             </div>
@@ -136,7 +136,8 @@ export default function GenerateButton({
           <div className="flex gap-2">
             <button
               onClick={handleGenerate}
-              className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+              className="rounded-md px-4 py-2 text-sm font-medium text-white"
+              style={{ background: "var(--primary, #173F35)" }}
             >
               Confirmer
             </button>
@@ -154,7 +155,8 @@ export default function GenerateButton({
         <button
           onClick={() => setShowConfirm(true)}
           disabled={!canGenerate}
-          className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 transition-colors"
+          className="inline-flex items-center gap-2 rounded-lg px-6 py-3 text-base font-semibold text-white shadow-sm disabled:cursor-not-allowed disabled:opacity-50 transition-colors"
+        style={{ background: "var(--accent, #D6A84F)", color: "var(--primary, #173F35)" }}
         >
           <span>✨</span>
           {hasGenerated ? "Régénérer le plan" : "Générer mon business plan"}

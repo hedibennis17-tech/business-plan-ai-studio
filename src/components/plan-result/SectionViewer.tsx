@@ -74,10 +74,10 @@ export default function SectionViewer({
       {/* Sidebar navigation */}
       <aside className="w-64 shrink-0">
         <div className="sticky top-6 rounded-xl border border-gray-200 bg-white overflow-hidden shadow-sm">
-          <div className="bg-blue-600 px-4 py-3">
+          <div style={{ background: "var(--primary, #173F35)" }} className="px-4 py-3">
             <p className="text-sm font-semibold text-white">Chapitres</p>
             {generationFinished && (
-              <p className="text-xs text-blue-200 mt-0.5">
+              <p className="text-xs mt-0.5" style={{ color: "var(--accent, #D6A84F)" }}>
                 Généré le {new Date(generationFinished).toLocaleDateString("fr-CA")}
               </p>
             )}
@@ -89,9 +89,10 @@ export default function SectionViewer({
                 onClick={() => setActiveSection(key)}
                 className={`w-full text-left px-4 py-2.5 flex items-center gap-2 text-sm transition-colors ${
                   activeSection === key
-                    ? "bg-blue-50 text-blue-700 font-medium"
+                    ? "font-medium"
                     : "text-gray-700 hover:bg-gray-50"
                 }`}
+                style={activeSection === key ? { background: "rgba(23,63,53,0.07)", color: "var(--primary, #173F35)" } : undefined}
               >
                 <span>{icon}</span>
                 <span className="truncate">{label}</span>
@@ -174,7 +175,8 @@ export default function SectionViewer({
                 setActiveSection(SECTION_LABELS[idx + 1].key);
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              className="rounded-lg border border-blue-300 bg-blue-50 px-4 py-2 text-sm font-medium text-blue-700 hover:bg-blue-100"
+              className="rounded-lg px-4 py-2 text-sm font-medium"
+            style={{ border: "1px solid var(--primary, #173F35)", background: "rgba(23,63,53,0.06)", color: "var(--primary, #173F35)" }}
             >
               Suivant →
             </button>
