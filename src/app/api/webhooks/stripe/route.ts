@@ -93,6 +93,12 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
     ? session.payment_intent
     : session.payment_intent?.id;
 
+  // Extraire l'ID customer (peut être string, objet Customer ou DeletedCustomer)
+  const stripeCustomerId =
+    typeof session.customer === "string"
+      ? session.customer
+      : session.customer?.id ?? null;
+
   // Mettre à jour ou créer le payment record
   await prisma.payment.upsert({
     where: { stripeSessionId: session.id },
@@ -105,7 +111,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       currency: session.currency ?? "cad",
       status: "COMPLETED",
       metadata: {
-        stripeCustomerId: session.customer,
+        stripeCustomerId,
         completedAt: new Date().toISOString(),
       },
     },
@@ -113,7 +119,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       status: "COMPLETED",
       stripePaymentIntentId: paymentIntentId,
       metadata: {
-        stripeCustomerId: session.customer,
+        stripeCustomerId,
         completedAt: new Date().toISOString(),
       },
       updatedAt: new Date(),
