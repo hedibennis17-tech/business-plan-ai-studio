@@ -19,6 +19,7 @@ export const ROLE_PERMISSIONS: Record<AdminRole, string[]> = {
     "admin.emails.view",
     "admin.support.view",
     "admin.support.respond",
+    "admin.finance.view",
     "admin.settings.view",
     "admin.settings.edit",
     "admin.audit.view",
@@ -50,6 +51,7 @@ export const ROLE_PERMISSIONS: Record<AdminRole, string[]> = {
     "admin.dashboard",
     "admin.analytics.view",
     "admin.users.view",
+    "admin.finance.view",
   ],
 };
 
