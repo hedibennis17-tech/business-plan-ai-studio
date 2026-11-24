@@ -45,9 +45,9 @@ export default function Step1({ defaultValues, onChange, onValidChange }: Props)
   }, [isValid]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 questionnaire-step">
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-1">Profil de l'entreprise</h2>
+        <h2 className="text-xl font-semibold text-gray-900 mb-1">Profil de l&apos;entreprise</h2>
         <p className="text-sm text-gray-500">Informations de base sur votre entreprise ou projet.</p>
       </div>
 
@@ -55,7 +55,7 @@ export default function Step1({ defaultValues, onChange, onValidChange }: Props)
         {/* Nom */}
         <div className="md:col-span-2">
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Nom de l'entreprise <span className="text-red-400">*</span>
+            Nom de l&apos;entreprise <span className="text-red-400">*</span>
           </label>
           <input
             {...register("companyName", { required: "Requis" })}
@@ -71,7 +71,7 @@ export default function Step1({ defaultValues, onChange, onValidChange }: Props)
         {/* Secteur */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Secteur d'activité <span className="text-red-400">*</span>
+            Secteur d&apos;activité <span className="text-red-400">*</span>
           </label>
           <input
             {...register("sector", { required: "Requis" })}
@@ -169,7 +169,7 @@ export default function Step1({ defaultValues, onChange, onValidChange }: Props)
         {/* Type entreprise */}
         <div className="md:col-span-2">
           <label className="block text-sm font-medium text-gray-700 mb-3">
-            Type d'entreprise <span className="text-red-400">*</span>
+            Type d&apos;entreprise <span className="text-red-400">*</span>
           </label>
           <div className="flex gap-4">
             {[

@@ -15,6 +15,7 @@ import Step8 from "./steps/Step8";
 import Step9 from "./steps/Step9";
 import Step10 from "./steps/Step10";
 import { useAutoSave } from "@/hooks/useAutoSave";
+import LanguageSwitcher, { type Language } from "./LanguageSwitcher";
 
 type Plan = {
   id: string;
@@ -49,6 +50,17 @@ const STEP_LABELS: Record<number, string> = {
   10: "Validation",
 };
 
+const STEP_ICONS: Record<number, string> = {
+  1: "/icons/profile.png", 2: "/icons/project.png", 3: "/icons/market.png",
+  4: "/icons/clients.png", 5: "/icons/market.png", 6: "/icons/project.png",
+  7: "/icons/profile.png", 8: "/icons/finance.png", 9: "/icons/finance.png", 10: "/icons/validation.png",
+};
+
+const COPY = {
+  fr: { step: "Étape", saved: "Sauvegardé", language: "Langue" },
+  en: { step: "Step", saved: "Saved", language: "Language" },
+} as const;
+
 export default function QuestionnaireWizard({ initialPlan }: Props) {
   const router = useRouter();
   const [plan, setPlan] = useState<Plan>(initialPlan);
@@ -57,6 +69,7 @@ export default function QuestionnaireWizard({ initialPlan }: Props) {
   const [isStepValid, setIsStepValid] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [language, setLanguage] = useState<Language>("fr");
   const stepDataRef = useRef<Record<string, unknown>>({});
 
   const { scheduleSave, flushSave, saveStatus } = useAutoSave(plan.id, currentStep);
@@ -123,7 +136,7 @@ export default function QuestionnaireWizard({ initialPlan }: Props) {
   const progressPct = Math.round((plan.completedSteps.length / 10) * 100);
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", background: "var(--bg, #F7F8F6)" }}>
+    <div className="questionnaire-shell" style={{ minHeight: "100vh", display: "flex", background: "var(--bg)" }}>
       {/* ── Sidebar overlay mobile ── */}
       {sidebarOpen && (
         <div
@@ -281,7 +294,8 @@ export default function QuestionnaireWizard({ initialPlan }: Props) {
                   textAlign: "left",
                 }}
               >
-                {/* Indicateur */}
+                {/* Icône PNG + indicateur */}
+                <img src={STEP_ICONS[step]} alt="" width={28} height={28} style={{ borderRadius: 8, opacity: isCurrent || isCompleted ? 1 : 0.55 }} />
                 <span
                   style={{
                     width: 24,
@@ -395,7 +409,7 @@ export default function QuestionnaireWizard({ initialPlan }: Props) {
                 flexShrink: 0,
               }}
             >
-              Étape {currentStep}/10
+              {COPY[language].step} {currentStep}/10
             </span>
             <span style={{ color: "#D1D5DB", fontSize: 14 }}>›</span>
             <span
@@ -412,14 +426,14 @@ export default function QuestionnaireWizard({ initialPlan }: Props) {
             </span>
           </div>
 
-          {/* Save indicator */}
-          <div style={{ flexShrink: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
+            <LanguageSwitcher onChange={setLanguage} />
             <SaveIndicator status={saveStatus} />
           </div>
         </header>
 
         {/* Corps */}
-        <main style={{ flex: 1, padding: "24px 20px 32px", maxWidth: 780, width: "100%", margin: "0 auto" }}>
+        <main className="questionnaire-main" style={{ flex: 1, padding: "24px 20px 32px", maxWidth: 780, width: "100%", margin: "0 auto" }}>
           {/* Progress dots compact */}
           <div style={{ marginBottom: 24 }}>
             <StepProgress
@@ -440,6 +454,10 @@ export default function QuestionnaireWizard({ initialPlan }: Props) {
               boxShadow: "0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(23,63,53,0.04)",
             }}
           >
+            <div className="questionnaire-context-bar">
+              <div><span className="eyebrow">Business Plan AI Studio</span><strong>{language === "fr" ? "Construisons votre plan, étape par étape" : "Let’s build your plan, one step at a time"}</strong></div>
+              <span className="questionnaire-progress-label">{plan.completedSteps.length}/10</span>
+            </div>
             {currentStep === 1 && <Step1 {...stepProps} defaultValues={getStepDefault(1)} />}
             {currentStep === 2 && <Step2 {...stepProps} defaultValues={getStepDefault(2)} />}
             {currentStep === 3 && <Step3 {...stepProps} defaultValues={getStepDefault(3)} />}
