@@ -14,6 +14,8 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { href: "/admin", label: "Tableau de bord", icon: "📊", permission: "admin.dashboard" },
   { href: "/admin/users", label: "Utilisateurs", icon: "👥", permission: "admin.users.view" },
+  { href: "/admin/clients", label: "Suivi Clients", icon: "📌", permission: "admin.support.view" },
+  { href: "/admin/transactions", label: "Transactions", icon: "💳", permission: "admin.finance.view" },
   { href: "/admin/plans", label: "Plans d'affaires", icon: "📋", permission: "admin.plans.view" },
   { href: "/admin/ai-control", label: "Contrôle IA", icon: "🤖", permission: "admin.ai.view" },
   { href: "/admin/documents", label: "Documents", icon: "📄", permission: "admin.documents.view" },

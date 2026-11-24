@@ -39,6 +39,7 @@ export async function GET(req: NextRequest, { params }: Params) {
         generatedSections: true,
         financialAssumptions: true,
         step2Data: true,
+        isPaid: true,
       },
     });
 
@@ -50,6 +51,14 @@ export async function GET(req: NextRequest, { params }: Params) {
       return NextResponse.json(
         { error: "Le plan n'est pas encore généré. Veuillez d'abord générer votre plan." },
         { status: 422 }
+      );
+    }
+
+    // Protection premium — export bloqué avant paiement
+    if (!plan.isPaid) {
+      return NextResponse.json(
+        { error: "Paiement requis pour télécharger le plan complet.", code: "PAYMENT_REQUIRED" },
+        { status: 402 }
       );
     }
 
