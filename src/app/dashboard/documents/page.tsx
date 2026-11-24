@@ -34,6 +34,8 @@ export default async function DocumentsPage() {
     { icon: "🏠", label: "Tableau de bord", href: "/dashboard", active: false },
     { icon: "📋", label: "Mon plan", href: plans[0] ? `/plan/${plans[0].id}` : "/dashboard", active: false },
     { icon: "📄", label: "Documents", href: "/dashboard/documents", active: true },
+    { icon: "💳", label: "Facturation", href: "/dashboard/billing", active: false },
+    { icon: "🎧", label: "Support", href: "/dashboard/support", active: false },
     { icon: "⚙️", label: "Paramètres", href: "/dashboard/settings", active: false },
   ];
 

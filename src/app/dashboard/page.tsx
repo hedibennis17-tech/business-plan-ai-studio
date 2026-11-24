@@ -59,6 +59,8 @@ export default async function DashboardPage() {
     { icon: "🏠", label: "Tableau de bord", href: "/dashboard", active: true },
     { icon: "📋", label: "Mon plan", href: existingPlan ? `/plan/${existingPlan.id}` : "/dashboard", active: false },
     { icon: "📄", label: "Documents", href: "/dashboard/documents", active: false },
+    { icon: "💳", label: "Facturation", href: "/dashboard/billing", active: false },
+    { icon: "🎧", label: "Support", href: "/dashboard/support", active: false },
     { icon: "⚙️", label: "Paramètres", href: "/dashboard/settings", active: false },
   ];
 

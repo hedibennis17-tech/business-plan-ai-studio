@@ -35,6 +35,8 @@ export default async function SettingsPage() {
     { icon: "🏠", label: "Tableau de bord", href: "/dashboard", active: false },
     { icon: "📋", label: "Mon plan", href: "/dashboard", active: false },
     { icon: "📄", label: "Documents", href: "/dashboard/documents", active: false },
+    { icon: "💳", label: "Facturation", href: "/dashboard/billing", active: false },
+    { icon: "🎧", label: "Support", href: "/dashboard/support", active: false },
     { icon: "⚙️", label: "Paramètres", href: "/dashboard/settings", active: true },
   ];
 

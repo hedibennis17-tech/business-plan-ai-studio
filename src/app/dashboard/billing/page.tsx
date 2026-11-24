@@ -3,6 +3,7 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import BillingClient from "@/components/billing/BillingClient";
+import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 
 export const instant = false;
 
@@ -29,13 +30,20 @@ export default async function BillingPage() {
     orderBy: { updatedAt: "desc" },
   });
 
+  const firstPlan = plans[0];
+
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Facturation</h1>
-        <p className="text-gray-500 mt-1">Accédez à vos plans d&apos;affaires complets avec export PDF et Word</p>
-      </div>
-      <BillingClient plans={plans as Parameters<typeof BillingClient>[0]["plans"]} />
+    <div style={{ minHeight: "100vh", display: "flex", background: "#F7F8F6" }}>
+      <DashboardSidebar planHref={firstPlan ? `/plan/${firstPlan.id}` : undefined} />
+      <main style={{ flex: 1, padding: "2rem", overflowY: "auto" }}>
+        <div style={{ maxWidth: 800, margin: "0 auto" }}>
+          <div style={{ marginBottom: "1.5rem" }}>
+            <h1 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#182522" }}>Facturation</h1>
+            <p style={{ color: "#6b8278", marginTop: 4 }}>Accédez à vos plans d&apos;affaires complets avec export PDF et Word</p>
+          </div>
+          <BillingClient plans={plans as Parameters<typeof BillingClient>[0]["plans"]} />
+        </div>
+      </main>
     </div>
   );
 }

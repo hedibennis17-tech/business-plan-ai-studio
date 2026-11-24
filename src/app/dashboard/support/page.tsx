@@ -3,6 +3,8 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { supportTicket } from "@/lib/prisma-ext";
 import SupportClient from "@/components/support/SupportClient";
+import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+import { prisma } from "@/lib/prisma";
 
 export const instant = false;
 
@@ -19,13 +21,24 @@ export default async function SupportPage() {
     orderBy: { updatedAt: "desc" },
   });
 
+  const firstPlan = await prisma.businessPlan.findFirst({
+    where: { userId: session.user.id },
+    select: { id: true },
+    orderBy: { updatedAt: "desc" },
+  });
+
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Support</h1>
-        <p className="text-gray-500 mt-1">Créez un ticket ou suivez vos demandes existantes</p>
-      </div>
-      <SupportClient initialTickets={tickets as Parameters<typeof SupportClient>[0]["initialTickets"]} />
+    <div style={{ minHeight: "100vh", display: "flex", background: "#F7F8F6" }}>
+      <DashboardSidebar planHref={firstPlan ? `/plan/${firstPlan.id}` : undefined} />
+      <main style={{ flex: 1, padding: "2rem", overflowY: "auto" }}>
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+          <div style={{ marginBottom: "1.5rem" }}>
+            <h1 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#182522" }}>Support</h1>
+            <p style={{ color: "#6b8278", marginTop: 4 }}>Créez un ticket ou suivez vos demandes existantes</p>
+          </div>
+          <SupportClient initialTickets={tickets as Parameters<typeof SupportClient>[0]["initialTickets"]} />
+        </div>
+      </main>
     </div>
   );
 }
