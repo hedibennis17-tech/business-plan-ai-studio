@@ -61,8 +61,8 @@ export const authOptions: NextAuthOptions = {
         // @ts-expect-error — role est dans notre User Prisma mais pas dans le type next-auth User par défaut
         token.role = user.role;
       }
-      // Re-fetch le rôle depuis la DB à chaque session update (changement de rôle admin)
-      if (trigger === "update" && token.id) {
+      // Toujours re-fetch le rôle depuis la DB (Google OAuth ne le retourne pas)
+      if (token.id && (!token.role || token.role === "USER" || trigger === "update")) {
         const dbUser = await prisma.user.findUnique({
           where: { id: token.id as string },
           select: { role: true },
