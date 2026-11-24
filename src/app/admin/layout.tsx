@@ -24,9 +24,9 @@ export default async function AdminLayout({
   }
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", background: "#F7F8F6" }}>
+    <div className="dashboard-shell" style={{ display: "flex", minHeight: "100vh" }}>
       <AdminSidebar userRole={role} userEmail={session.user.email ?? ""} userName={session.user.name ?? ""} />
-      <main style={{ flex: 1, overflow: "auto" }}>
+      <main className="admin-main dashboard-main" style={{ flex: 1, overflow: "auto" }}>
         {children}
       </main>
     </div>

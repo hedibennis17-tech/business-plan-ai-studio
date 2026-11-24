@@ -26,6 +26,7 @@ export default function DashboardSidebar({ planHref }: Props) {
 
   return (
     <aside
+      className="dashboard-sidebar"
       style={{
         width: 240,
         minHeight: "100vh",

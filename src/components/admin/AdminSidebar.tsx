@@ -42,6 +42,7 @@ export default function AdminSidebar({
 
   return (
     <aside
+      className="dashboard-sidebar"
       style={{
         width: 240,
         minHeight: "100vh",

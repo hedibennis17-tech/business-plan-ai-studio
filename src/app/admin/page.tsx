@@ -68,12 +68,12 @@ export default async function AdminDashboardPage() {
   const stats = await getAdminStats();
 
   return (
-    <div style={{ padding: 32, maxWidth: 1200 }}>
+    <div style={{ padding: "clamp(1.25rem, 3vw, 2rem)", maxWidth: 1200, width: "100%" }}>
       <div style={{ marginBottom: 32 }}>
-        <h1 style={{ fontSize: 24, fontWeight: 700, color: "#173F35", margin: 0 }}>
+        <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--primary)", margin: 0 }}>
           Tableau de bord Admin
         </h1>
-        <p style={{ color: "#6B7280", marginTop: 6, fontSize: 14 }}>
+        <p style={{ color: "var(--text-muted)", marginTop: 6, fontSize: 14 }}>
           Vue d&apos;ensemble en temps réel — données de production
         </p>
       </div>
@@ -118,17 +118,18 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Contenu en 2 colonnes */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+      <div className="admin-two-col">
         {/* Nouveaux utilisateurs */}
         <div
           style={{
-            background: "#fff",
-            borderRadius: 12,
+            background: "var(--surface)",
+            borderRadius: "var(--radius-lg)",
             padding: 24,
-            border: "1px solid #E5E7EB",
+            border: "1px solid var(--border)",
+            boxShadow: "var(--shadow-sm)",
           }}
         >
-          <h2 style={{ fontSize: 15, fontWeight: 600, color: "#173F35", margin: "0 0 16px" }}>
+          <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--primary)", margin: "0 0 16px" }}>
             Derniers inscrits
           </h2>
           {stats.recentUsers.map((user: { id: string; name: string | null; email: string; role: string; createdAt: Date }) => (
@@ -139,16 +140,16 @@ export default async function AdminDashboardPage() {
                 justifyContent: "space-between",
                 alignItems: "center",
                 padding: "10px 0",
-                borderBottom: "1px solid #F3F4F6",
+                borderBottom: "1px solid var(--border-light)",
               }}
             >
               <div>
-                <div style={{ fontSize: 13, fontWeight: 500, color: "#111827" }}>
+                <div style={{ fontSize: 13, fontWeight: 500, color: "var(--text)" }}>
                   {user.name || "(sans nom)"}
                 </div>
-                <div style={{ fontSize: 12, color: "#6B7280" }}>{user.email}</div>
+                <div style={{ fontSize: 12, color: "var(--text-muted)" }}>{user.email}</div>
               </div>
-              <div style={{ fontSize: 11, color: "#9CA3AF" }}>
+              <div style={{ fontSize: 11, color: "var(--text-muted)" }}>
                 {new Intl.DateTimeFormat("fr-CA", { day: "2-digit", month: "short" }).format(new Date(user.createdAt))}
               </div>
             </div>
@@ -158,13 +159,14 @@ export default async function AdminDashboardPage() {
         {/* Plans par statut */}
         <div
           style={{
-            background: "#fff",
-            borderRadius: 12,
+            background: "var(--surface)",
+            borderRadius: "var(--radius-lg)",
             padding: 24,
-            border: "1px solid #E5E7EB",
+            border: "1px solid var(--border)",
+            boxShadow: "var(--shadow-sm)",
           }}
         >
-          <h2 style={{ fontSize: 15, fontWeight: 600, color: "#173F35", margin: "0 0 16px" }}>
+          <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--primary)", margin: "0 0 16px" }}>
             Plans par statut
           </h2>
           {stats.plansByStatus.map((s: { status: string; _count: { status: number } }) => (
@@ -175,18 +177,18 @@ export default async function AdminDashboardPage() {
                 justifyContent: "space-between",
                 alignItems: "center",
                 padding: "10px 0",
-                borderBottom: "1px solid #F3F4F6",
+                borderBottom: "1px solid var(--border-light)",
               }}
             >
-              <span style={{ fontSize: 13, color: "#374151" }}>{s.status}</span>
+              <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>{s.status}</span>
               <span
                 style={{
-                  background: "#F3F4F6",
+                  background: "var(--primary-muted)",
                   borderRadius: 20,
                   padding: "2px 12px",
                   fontSize: 12,
                   fontWeight: 600,
-                  color: "#173F35",
+                  color: "var(--primary)",
                 }}
               >
                 {s._count.status}
@@ -194,7 +196,7 @@ export default async function AdminDashboardPage() {
             </div>
           ))}
           {stats.plansByStatus.length === 0 && (
-            <p style={{ color: "#9CA3AF", fontSize: 13 }}>Aucun plan pour l&apos;instant</p>
+            <p style={{ color: "var(--text-muted)", fontSize: 13 }}>Aucun plan pour l&apos;instant</p>
           )}
         </div>
       </div>
@@ -218,18 +220,19 @@ function KpiCard({
   return (
     <div
       style={{
-        background: "#fff",
-        borderRadius: 12,
+        background: "var(--surface)",
+        borderRadius: "var(--radius-lg)",
         padding: 20,
-        border: "1px solid #E5E7EB",
+        border: "1px solid var(--border)",
+        boxShadow: "var(--shadow-sm)",
         borderTop: `3px solid ${color}`,
       }}
     >
       <div style={{ fontSize: 24, marginBottom: 8 }}>{icon}</div>
-      <div style={{ fontSize: 28, fontWeight: 700, color: "#111827" }}>
+      <div style={{ fontSize: 28, fontWeight: 700, color: "var(--text)" }}>
         {value.toLocaleString("fr-CA")}
       </div>
-      <div style={{ fontSize: 12, color: "#6B7280", marginTop: 2 }}>{label}</div>
+      <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>{label}</div>
       <div style={{ fontSize: 11, color: color, marginTop: 6, fontWeight: 500 }}>{sub}</div>
     </div>
   );

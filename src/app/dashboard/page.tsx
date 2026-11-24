@@ -65,10 +65,10 @@ export default async function DashboardPage() {
   ];
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", background: "var(--bg, #F7F8F6)" }}>
+    <div className="dashboard-shell" style={{ minHeight: "100vh", display: "flex" }}>
 
       {/* SIDEBAR */}
-      <aside style={{
+      <aside className="dashboard-sidebar" style={{
         width: "240px",
         flexShrink: 0,
         background: "var(--primary, #173F35)",
@@ -180,11 +180,11 @@ export default async function DashboardPage() {
       </aside>
 
       {/* MAIN CONTENT */}
-      <div style={{ marginLeft: "240px", flex: 1, display: "flex", flexDirection: "column" }}>
+      <div className="dashboard-main" style={{ marginLeft: "240px", flex: 1, display: "flex", flexDirection: "column" }}>
 
         {/* Top bar */}
-        <header style={{
-          background: "white",
+        <header className="dashboard-topbar" style={{
+          background: "rgba(255,255,255,0.94)",
           borderBottom: "1px solid var(--border, #d6e0dc)",
           padding: "0 2rem",
           position: "sticky", top: 0, zIndex: 30,
@@ -231,7 +231,7 @@ export default async function DashboardPage() {
         </header>
 
         {/* Page content */}
-        <main style={{ padding: "2rem", flex: 1, maxWidth: "1000px" }}>
+        <main className="dashboard-content" style={{ padding: "2rem", flex: 1, maxWidth: "1000px", width: "100%" }}>
 
           {/* Welcome */}
           <div style={{ marginBottom: "1.75rem" }}>
@@ -460,7 +460,7 @@ export default async function DashboardPage() {
           {/* Help footer */}
           <div style={{
             padding: "1.25rem 1.5rem",
-            background: "white",
+            background: "var(--surface)",
             borderRadius: "0.875rem",
             border: "1px solid var(--border, #d6e0dc)",
             display: "flex",
