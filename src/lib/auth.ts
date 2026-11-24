@@ -45,6 +45,10 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Identifiants invalides");
         }
 
+        if (user.isSuspended) {
+          throw new Error("Compte suspendu. Contactez le support.");
+        }
+
         return {
           id: user.id,
           email: user.email,
@@ -58,24 +62,28 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, trigger }) {
       if (user) {
         token.id = user.id;
-        // @ts-expect-error — role est dans notre User Prisma mais pas dans le type next-auth User par défaut
         token.role = user.role;
       }
-      // Toujours re-fetch le rôle depuis la DB (Google OAuth ne le retourne pas)
+      // Toujours re-fetch le rôle + statut suspension depuis la DB
       if (token.id && (!token.role || token.role === "USER" || trigger === "update")) {
         const dbUser = await prisma.user.findUnique({
           where: { id: token.id as string },
-          select: { role: true },
+          select: { role: true, isSuspended: true },
         });
-        if (dbUser) token.role = dbUser.role;
+        if (dbUser) {
+          token.role = dbUser.role;
+          token.isSuspended = dbUser.isSuspended;
+        }
+      }
+      // Bloquer les utilisateurs suspendus
+      if (token.isSuspended) {
+        return { ...token, error: "ACCOUNT_SUSPENDED" };
       }
       return token;
     },
     async session({ session, token }) {
       if (token && session.user) {
-        // @ts-expect-error — on étend le type Session
         session.user.id = token.id as string;
-        // @ts-expect-error — on étend le type Session
         session.user.role = token.role as string;
       }
       return session;

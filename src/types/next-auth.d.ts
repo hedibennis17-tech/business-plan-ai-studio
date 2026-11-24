@@ -1,0 +1,27 @@
+import type { DefaultSession, DefaultUser } from "next-auth";
+import type { DefaultJWT } from "next-auth/jwt";
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      role: string;
+      isSuspended?: boolean;
+    } & DefaultSession["user"];
+    error?: string;
+  }
+
+  interface User extends DefaultUser {
+    role: string;
+    isSuspended?: boolean;
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT extends DefaultJWT {
+    id: string;
+    role: string;
+    isSuspended?: boolean;
+    error?: string;
+  }
+}

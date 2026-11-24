@@ -23,7 +23,8 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: https: blob:",
     "font-src 'self'",
-    "connect-src 'self' https://accounts.google.com https://*.neon.tech",
+    "connect-src 'self' https://accounts.google.com https://*.neon.tech https://api.stripe.com https://js.stripe.com",
+    "frame-src https://accounts.google.com https://js.stripe.com https://hooks.stripe.com",
     "frame-src https://accounts.google.com",
     "frame-ancestors 'none'",
     "base-uri 'self'",
@@ -86,6 +87,9 @@ export default withAuth(
         for (const route of Object.keys(RATE_LIMITED_ROUTES)) {
           if (path.startsWith(route)) return true;
         }
+
+        // Le webhook Stripe ne requiert pas de session (signature Stripe)
+        if (path.startsWith("/api/webhooks/stripe")) return true;
 
         // Routes protégées : session requise
         return !!token;
