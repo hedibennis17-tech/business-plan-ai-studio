@@ -4,15 +4,32 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { prisma } from "@/lib/prisma";
+import SettingsClient from "@/components/settings/SettingsClient";
 
 export default async function SettingsPage() {
   const session = await getServerSession(authOptions);
-  if (!session?.user) redirect("/auth/login");
+  if (!session?.user?.email) redirect("/auth/login");
 
   const user = session.user;
-  const initials = user.name
-    ? user.name.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2)
+
+  // Récupère les infos DB pour savoir si l'user a un mot de passe / Google
+  const dbUser = await prisma.user.findUnique({
+    where: { email: user.email! },
+    select: { name: true, passwordHash: true, googleId: true, createdAt: true },
+  });
+
+  const hasPassword = !!dbUser?.passwordHash;
+  const isGoogleAccount = !!dbUser?.googleId;
+
+  const initials = (dbUser?.name ?? user.name)
+    ? (dbUser?.name ?? user.name)!.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2)
     : (user.email?.[0] ?? "?").toUpperCase();
+
+  const displayName = dbUser?.name ?? user.name ?? "Utilisateur";
+  const memberSince = dbUser?.createdAt
+    ? new Intl.DateTimeFormat("fr-CA", { year: "numeric", month: "long", day: "numeric" }).format(dbUser.createdAt)
+    : "—";
 
   const navItems = [
     { icon: "🏠", label: "Tableau de bord", href: "/dashboard", active: false },
@@ -75,7 +92,7 @@ export default async function SettingsPage() {
               fontWeight: 800, fontSize: "0.8rem",
             }}>{initials}</div>
             <div style={{ overflow: "hidden" }}>
-              <div style={{ color: "white", fontWeight: 600, fontSize: "0.825rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{user.name ?? "Utilisateur"}</div>
+              <div style={{ color: "white", fontWeight: 600, fontSize: "0.825rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{displayName}</div>
               <div style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.7rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{user.email}</div>
             </div>
           </div>
@@ -108,63 +125,24 @@ export default async function SettingsPage() {
               Paramètres du compte
             </h1>
             <p style={{ color: "var(--text-secondary, #3d5450)", fontSize: "0.9rem" }}>
-              Gérez votre profil et vos préférences.
+              Membre depuis {memberSince}
+              {isGoogleAccount && " · Connecté via Google"}
             </p>
           </div>
 
-          {/* Profil */}
-          <div style={{ background: "white", borderRadius: "1rem", border: "1px solid var(--border, #d6e0dc)", overflow: "hidden", marginBottom: "1.25rem", boxShadow: "0 1px 4px rgba(23,63,53,0.05)" }}>
-            <div style={{ padding: "1.25rem 1.5rem", borderBottom: "1px solid var(--border, #d6e0dc)", display: "flex", alignItems: "center", gap: "0.75rem" }}>
-              <span style={{ fontSize: "1.1rem" }}>👤</span>
-              <h2 style={{ fontWeight: 700, fontSize: "1rem", color: "var(--text, #182522)" }}>Profil</h2>
-            </div>
-            <div style={{ padding: "1.5rem" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "1.25rem", marginBottom: "1.5rem" }}>
-                <div style={{
-                  width: "4rem", height: "4rem", borderRadius: "50%",
-                  background: "var(--accent, #D6A84F)", color: "var(--primary, #173F35)",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontWeight: 800, fontSize: "1.25rem",
-                }}>{initials}</div>
-                <div>
-                  <div style={{ fontWeight: 700, fontSize: "1rem", color: "var(--text, #182522)" }}>{user.name ?? "—"}</div>
-                  <div style={{ fontSize: "0.85rem", color: "var(--text-muted, #6b8278)" }}>{user.email}</div>
-                </div>
-              </div>
-
-              {[
-                { label: "Nom complet", value: user.name ?? "—" },
-                { label: "Adresse e-mail", value: user.email ?? "—" },
-              ].map(({ label, value }) => (
-                <div key={label} style={{ marginBottom: "1rem" }}>
-                  <label style={{ display: "block", fontSize: "0.78rem", fontWeight: 600, color: "var(--text-muted, #6b8278)", marginBottom: "0.4rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-                    {label}
-                  </label>
-                  <div style={{
-                    padding: "0.75rem 1rem", borderRadius: "0.5rem",
-                    border: "1.5px solid var(--border, #d6e0dc)",
-                    background: "var(--bg, #F7F8F6)", fontSize: "0.9rem", color: "var(--text, #182522)",
-                  }}>
-                    {value}
-                  </div>
-                </div>
-              ))}
-
-              <div style={{
-                marginTop: "1rem", padding: "0.875rem 1rem",
-                background: "var(--primary-muted, #eaf2ef)", borderRadius: "0.625rem",
-                fontSize: "0.82rem", color: "var(--primary, #173F35)",
-              }}>
-                ℹ️ La modification du profil sera disponible dans une prochaine version.
-              </div>
-            </div>
-          </div>
+          {/* Formulaires interactifs (client) */}
+          <SettingsClient
+            initialName={displayName}
+            email={user.email!}
+            hasPassword={hasPassword}
+            isGoogleAccount={isGoogleAccount}
+          />
 
           {/* Abonnement */}
           <div style={{ background: "white", borderRadius: "1rem", border: "1px solid var(--border, #d6e0dc)", overflow: "hidden", marginBottom: "1.25rem", boxShadow: "0 1px 4px rgba(23,63,53,0.05)" }}>
             <div style={{ padding: "1.25rem 1.5rem", borderBottom: "1px solid var(--border, #d6e0dc)", display: "flex", alignItems: "center", gap: "0.75rem" }}>
               <span style={{ fontSize: "1.1rem" }}>💳</span>
-              <h2 style={{ fontWeight: 700, fontSize: "1rem", color: "var(--text, #182522)" }}>Abonnement & Facturation</h2>
+              <h2 style={{ fontWeight: 700, fontSize: "1rem", color: "var(--text, #182522)", margin: 0 }}>Abonnement & Facturation</h2>
             </div>
             <div style={{ padding: "1.5rem" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
@@ -175,7 +153,7 @@ export default async function SettingsPage() {
                       fontSize: "0.7rem", fontWeight: 700, padding: "0.2rem 0.6rem", borderRadius: "9999px",
                     }}>Plan Gratuit</span>
                   </div>
-                  <p style={{ fontSize: "0.85rem", color: "var(--text-muted, #6b8278)" }}>
+                  <p style={{ fontSize: "0.85rem", color: "var(--text-muted, #6b8278)", margin: 0 }}>
                     Générez et exportez votre plan d&apos;affaires pour 499 $ CAD.
                   </p>
                 </div>
@@ -191,39 +169,14 @@ export default async function SettingsPage() {
             </div>
           </div>
 
-          {/* Sécurité */}
-          <div style={{ background: "white", borderRadius: "1rem", border: "1px solid var(--border, #d6e0dc)", overflow: "hidden", marginBottom: "1.25rem", boxShadow: "0 1px 4px rgba(23,63,53,0.05)" }}>
-            <div style={{ padding: "1.25rem 1.5rem", borderBottom: "1px solid var(--border, #d6e0dc)", display: "flex", alignItems: "center", gap: "0.75rem" }}>
-              <span style={{ fontSize: "1.1rem" }}>🔐</span>
-              <h2 style={{ fontWeight: 700, fontSize: "1rem", color: "var(--text, #182522)" }}>Sécurité</h2>
-            </div>
-            <div style={{ padding: "1.5rem" }}>
-              <div style={{
-                display: "flex", justifyContent: "space-between", alignItems: "center",
-                padding: "1rem", borderRadius: "0.625rem", border: "1px solid var(--border, #d6e0dc)",
-              }}>
-                <div>
-                  <div style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text, #182522)", marginBottom: "0.2rem" }}>Mot de passe</div>
-                  <div style={{ fontSize: "0.78rem", color: "var(--text-muted, #6b8278)" }}>Dernière modification : inconnue</div>
-                </div>
-                <div style={{
-                  padding: "0.4rem 0.875rem", borderRadius: "0.5rem",
-                  border: "1.5px solid var(--border, #d6e0dc)", fontSize: "0.82rem",
-                  color: "var(--text-muted, #6b8278)", background: "var(--bg, #F7F8F6)",
-                }}>
-                  Bientôt disponible
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Déconnexion */}
+          {/* Zone de danger */}
           <div style={{ background: "white", borderRadius: "1rem", border: "1px solid #fecdd3", overflow: "hidden", boxShadow: "0 1px 4px rgba(23,63,53,0.05)" }}>
             <div style={{ padding: "1.25rem 1.5rem", borderBottom: "1px solid #fecdd3", display: "flex", alignItems: "center", gap: "0.75rem" }}>
               <span style={{ fontSize: "1.1rem" }}>⚠️</span>
-              <h2 style={{ fontWeight: 700, fontSize: "1rem", color: "#dc2626" }}>Zone de danger</h2>
+              <h2 style={{ fontWeight: 700, fontSize: "1rem", color: "#dc2626", margin: 0 }}>Zone de danger</h2>
             </div>
-            <div style={{ padding: "1.5rem" }}>
+            <div style={{ padding: "1.5rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
+              {/* Déconnexion */}
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
                 <div>
                   <div style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text, #182522)", marginBottom: "0.2rem" }}>Se déconnecter</div>
@@ -237,6 +190,25 @@ export default async function SettingsPage() {
                   fontWeight: 600, fontSize: "0.85rem", textDecoration: "none",
                 }}>
                   Déconnexion
+                </Link>
+              </div>
+
+              {/* Fermeture de compte */}
+              <div style={{ borderTop: "1px solid #fecdd3", paddingTop: "1rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: "0.9rem", color: "#dc2626", marginBottom: "0.2rem" }}>Fermer le compte</div>
+                  <div style={{ fontSize: "0.78rem", color: "var(--text-muted, #6b8278)" }}>
+                    Supprime définitivement votre compte et toutes vos données.<br />
+                    Cette action est irréversible.
+                  </div>
+                </div>
+                <Link href="mailto:support@businessplanai.ca?subject=Demande de fermeture de compte" style={{
+                  display: "inline-flex", alignItems: "center", gap: "0.5rem",
+                  background: "#dc2626", color: "white",
+                  padding: "0.6rem 1.1rem", borderRadius: "0.625rem",
+                  fontWeight: 600, fontSize: "0.85rem", textDecoration: "none",
+                }}>
+                  Contacter le support
                 </Link>
               </div>
             </div>
