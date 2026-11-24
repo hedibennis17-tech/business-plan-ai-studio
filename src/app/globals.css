@@ -718,3 +718,52 @@ textarea:focus {
   .questionnaire-step h2 { font-size: 1.15rem !important; }
   .language-switcher { transform: scale(.92); transform-origin: right center; }
 }
+
+.questionnaire-step-progress {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: .35rem;
+  width: 100%;
+  padding: .35rem;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: rgba(255,255,255,.72);
+  box-shadow: var(--shadow-sm);
+}
+.questionnaire-step-progress button {
+  min-width: 0;
+  display: grid;
+  justify-items: center;
+  gap: .2rem;
+  padding: .45rem .2rem;
+  border: 1px solid transparent;
+  border-radius: .75rem;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+.questionnaire-step-progress button.current {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, var(--accent-muted), rgba(255,255,255,.9));
+  color: var(--primary-dark);
+  box-shadow: 0 3px 10px rgba(214,168,79,.14);
+}
+.questionnaire-step-progress button.completed { cursor: pointer; color: var(--primary); }
+.questionnaire-step-progress button:not(:disabled):hover { border-color: rgba(214,168,79,.6); }
+.questionnaire-step-icon { position: relative; display: block; width: 30px; height: 30px; }
+.questionnaire-step-icon img { width: 30px; height: 30px; display: block; border-radius: .55rem; }
+.questionnaire-step-check {
+  position: absolute; right: -5px; bottom: -5px; width: 15px; height: 15px; display: grid; place-items: center;
+  border-radius: 50%; background: var(--success); color: white; border: 2px solid white; font-size: .55rem; font-weight: 900;
+}
+.questionnaire-step-number { font-size: .55rem; font-weight: 800; letter-spacing: .08em; opacity: .65; }
+.questionnaire-step-label { font-size: .62rem; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.questionnaire-step-header { display: flex; align-items: flex-start; gap: .8rem; }
+.questionnaire-step-header-icon { width: 42px; height: 42px; border-radius: .8rem; flex: 0 0 auto; box-shadow: 0 4px 12px rgba(23,63,53,.12); }
+.questionnaire-choice-icon { width: 30px; height: 30px; border-radius: .55rem; vertical-align: middle; margin-right: .35rem; }
+@media (max-width: 768px) {
+  .questionnaire-step-progress { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .2rem; padding: .3rem; }
+  .questionnaire-step-progress button { padding: .35rem .1rem; }
+  .questionnaire-step-label { font-size: .58rem; }
+  .questionnaire-step-icon, .questionnaire-step-icon img { width: 26px; height: 26px; }
+}

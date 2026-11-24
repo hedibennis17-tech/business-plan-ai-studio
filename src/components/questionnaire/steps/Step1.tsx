@@ -46,9 +46,13 @@ export default function Step1({ defaultValues, onChange, onValidChange }: Props)
 
   return (
     <div className="space-y-6 questionnaire-step">
-      <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-1">Profil de l&apos;entreprise</h2>
-        <p className="text-sm text-gray-500">Informations de base sur votre entreprise ou projet.</p>
+      <div className="questionnaire-step-header">
+        <img src="/icons/profile.png" alt="" className="questionnaire-step-header-icon" />
+        <div>
+          <span className="eyebrow">Étape 01 · Fondations</span>
+          <h2 className="text-xl font-semibold text-gray-900 mb-1">Profil de l&apos;entreprise</h2>
+          <p className="text-sm text-gray-500">Informations de base sur votre entreprise ou projet.</p>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -173,9 +177,9 @@ export default function Step1({ defaultValues, onChange, onValidChange }: Props)
           </label>
           <div className="flex gap-4">
             {[
-              { value: false, label: "🚀 Projet en démarrage", desc: "Nouvelle entreprise à lancer" },
-              { value: true, label: "🏢 Entreprise existante", desc: "Déjà en activité" },
-            ].map(({ value, label, desc }) => (
+              { value: false, label: "Projet en démarrage", icon: "/icons/project.png", desc: "Nouvelle entreprise à lancer" },
+              { value: true, label: "Entreprise existante", icon: "/icons/profile.png", desc: "Déjà en activité" },
+            ].map(({ value, label, icon, desc }) => (
               <label
                 key={String(value)}
                 className={`flex-1 cursor-pointer border-2 rounded-xl p-4 transition
@@ -195,7 +199,7 @@ export default function Step1({ defaultValues, onChange, onValidChange }: Props)
                     // force set via native event
                   }}
                 />
-                <div className="text-sm font-medium text-gray-900">{label}</div>
+                <div className="text-sm font-medium text-gray-900"><img src={icon} alt="" className="questionnaire-choice-icon" />{label}</div>
                 <div className="text-xs text-gray-500 mt-1">{desc}</div>
               </label>
             ))}
