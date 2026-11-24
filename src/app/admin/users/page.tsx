@@ -56,10 +56,10 @@ export default async function AdminUsersPage({
   return (
     <div style={{ padding: 32 }}>
       <div style={{ marginBottom: 24 }}>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "#173F35", margin: 0 }}>
+        <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--primary)", margin: 0 }}>
           Gestion des utilisateurs
         </h1>
-        <p style={{ color: "#6B7280", marginTop: 6, fontSize: 14 }}>
+        <p style={{ color: "var(--text-muted)", marginTop: 6, fontSize: 14 }}>
           {total} utilisateur{total !== 1 ? "s" : ""} au total
         </p>
       </div>

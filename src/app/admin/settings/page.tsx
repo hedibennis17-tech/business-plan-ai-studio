@@ -28,16 +28,16 @@ export default async function AdminSettingsPage() {
   return (
     <div style={{ padding: 32, maxWidth: 800 }}>
       <div style={{ marginBottom: 24 }}>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "#173F35", margin: 0 }}>Paramètres système</h1>
-        <p style={{ color: "#6B7280", marginTop: 6, fontSize: 14 }}>Configuration de l&apos;application</p>
+        <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--primary)", margin: 0 }}>Paramètres système</h1>
+        <p style={{ color: "var(--text-muted)", marginTop: 6, fontSize: 14 }}>Configuration de l&apos;application</p>
       </div>
 
       {/* Variables d'environnement — affiché sans valeurs */}
-      <div style={{ background: "#fff", borderRadius: 12, border: "1px solid #E5E7EB", padding: 24, marginBottom: 24 }}>
-        <h2 style={{ fontSize: 15, fontWeight: 600, color: "#173F35", margin: "0 0 16px" }}>
+      <div style={{ background: "var(--surface)", borderRadius: 12, border: "1px solid var(--border)", padding: 24, marginBottom: 24 }}>
+        <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--primary)", margin: "0 0 16px" }}>
           Variables d&apos;environnement actives
         </h2>
-        <p style={{ fontSize: 13, color: "#6B7280", marginBottom: 16 }}>
+        <p style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 16 }}>
           Les valeurs ne sont jamais affichées. Configurez-les dans Vercel → Environment Variables.
         </p>
         {[
@@ -56,12 +56,12 @@ export default async function AdminSettingsPage() {
               justifyContent: "space-between",
               alignItems: "center",
               padding: "10px 0",
-              borderBottom: "1px solid #F3F4F6",
+              borderBottom: "1px solid var(--border-light)",
             }}
           >
             <div>
-              <span style={{ fontFamily: "monospace", fontSize: 13, color: "#111827", fontWeight: 600 }}>{env.key}</span>
-              <span style={{ fontSize: 12, color: "#6B7280", marginLeft: 12 }}>{env.desc}</span>
+              <span style={{ fontFamily: "monospace", fontSize: 13, color: "var(--text)", fontWeight: 600 }}>{env.key}</span>
+              <span style={{ fontSize: 12, color: "var(--text-muted)", marginLeft: 12 }}>{env.desc}</span>
             </div>
             <span style={{
               padding: "2px 8px",
@@ -78,8 +78,8 @@ export default async function AdminSettingsPage() {
       </div>
 
       {/* Statistiques DB */}
-      <div style={{ background: "#fff", borderRadius: 12, border: "1px solid #E5E7EB", padding: 24, marginBottom: 24 }}>
-        <h2 style={{ fontSize: 15, fontWeight: 600, color: "#173F35", margin: "0 0 16px" }}>
+      <div style={{ background: "var(--surface)", borderRadius: 12, border: "1px solid var(--border)", padding: 24, marginBottom: 24 }}>
+        <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--primary)", margin: "0 0 16px" }}>
           Base de données (Neon PostgreSQL)
         </h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 12 }}>
@@ -91,16 +91,16 @@ export default async function AdminSettingsPage() {
           ].map((s) => (
             <div key={s.label} style={{ background: "#F9FAFB", borderRadius: 8, padding: "14px 16px" }}>
               <div style={{ fontSize: 18, marginBottom: 6 }}>{s.icon}</div>
-              <div style={{ fontSize: 22, fontWeight: 700, color: "#111827" }}>{s.value.toLocaleString("fr-CA")}</div>
-              <div style={{ fontSize: 12, color: "#6B7280" }}>{s.label}</div>
+              <div style={{ fontSize: 22, fontWeight: 700, color: "var(--text)" }}>{s.value.toLocaleString("fr-CA")}</div>
+              <div style={{ fontSize: 12, color: "var(--text-muted)" }}>{s.label}</div>
             </div>
           ))}
         </div>
       </div>
 
       {/* Infos app */}
-      <div style={{ background: "#fff", borderRadius: 12, border: "1px solid #E5E7EB", padding: 24 }}>
-        <h2 style={{ fontSize: 15, fontWeight: 600, color: "#173F35", margin: "0 0 16px" }}>
+      <div style={{ background: "var(--surface)", borderRadius: 12, border: "1px solid var(--border)", padding: 24 }}>
+        <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--primary)", margin: "0 0 16px" }}>
           Informations application
         </h2>
         {[
@@ -117,12 +117,12 @@ export default async function AdminSettingsPage() {
               display: "flex",
               justifyContent: "space-between",
               padding: "10px 0",
-              borderBottom: "1px solid #F3F4F6",
+              borderBottom: "1px solid var(--border-light)",
               fontSize: 13,
             }}
           >
-            <span style={{ color: "#6B7280" }}>{info.label}</span>
-            <span style={{ color: "#111827", fontWeight: 500 }}>{info.value}</span>
+            <span style={{ color: "var(--text-muted)" }}>{info.label}</span>
+            <span style={{ color: "var(--text)", fontWeight: 500 }}>{info.value}</span>
           </div>
         ))}
       </div>

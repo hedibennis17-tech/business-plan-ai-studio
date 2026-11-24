@@ -106,7 +106,7 @@ export default async function SettingsPage() {
 
       {/* MAIN */}
       <div style={{ marginLeft: "240px", flex: 1, display: "flex", flexDirection: "column" }}>
-        <header style={{ background: "white", borderBottom: "1px solid var(--border, #d6e0dc)", padding: "0 2rem", position: "sticky", top: 0, zIndex: 30 }}>
+        <header style={{ background: "var(--surface)", borderBottom: "1px solid var(--border, #d6e0dc)", padding: "0 2rem", position: "sticky", top: 0, zIndex: 30 }}>
           <div style={{ height: "4rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div>
               <div style={{ fontWeight: 800, fontSize: "1.05rem", color: "var(--text, #182522)" }}>Paramètres</div>
@@ -141,7 +141,7 @@ export default async function SettingsPage() {
           />
 
           {/* Abonnement */}
-          <div style={{ background: "white", borderRadius: "1rem", border: "1px solid var(--border, #d6e0dc)", overflow: "hidden", marginBottom: "1.25rem", boxShadow: "0 1px 4px rgba(23,63,53,0.05)" }}>
+          <div style={{ background: "var(--surface)", borderRadius: "1rem", border: "1px solid var(--border, #d6e0dc)", overflow: "hidden", marginBottom: "1.25rem", boxShadow: "0 1px 4px rgba(23,63,53,0.05)" }}>
             <div style={{ padding: "1.25rem 1.5rem", borderBottom: "1px solid var(--border, #d6e0dc)", display: "flex", alignItems: "center", gap: "0.75rem" }}>
               <span style={{ fontSize: "1.1rem" }}>💳</span>
               <h2 style={{ fontWeight: 700, fontSize: "1rem", color: "var(--text, #182522)", margin: 0 }}>Abonnement & Facturation</h2>
@@ -172,7 +172,7 @@ export default async function SettingsPage() {
           </div>
 
           {/* Zone de danger */}
-          <div style={{ background: "white", borderRadius: "1rem", border: "1px solid #fecdd3", overflow: "hidden", boxShadow: "0 1px 4px rgba(23,63,53,0.05)" }}>
+          <div style={{ background: "var(--surface)", borderRadius: "1rem", border: "1px solid #fecdd3", overflow: "hidden", boxShadow: "0 1px 4px rgba(23,63,53,0.05)" }}>
             <div style={{ padding: "1.25rem 1.5rem", borderBottom: "1px solid #fecdd3", display: "flex", alignItems: "center", gap: "0.75rem" }}>
               <span style={{ fontSize: "1.1rem" }}>⚠️</span>
               <h2 style={{ fontWeight: 700, fontSize: "1rem", color: "#dc2626", margin: 0 }}>Zone de danger</h2>

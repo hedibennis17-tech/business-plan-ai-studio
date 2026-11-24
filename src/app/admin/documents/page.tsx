@@ -37,8 +37,8 @@ export default async function AdminDocumentsPage() {
   return (
     <div style={{ padding: 32, maxWidth: 1000 }}>
       <div style={{ marginBottom: 24 }}>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "#173F35", margin: 0 }}>Documents exportés</h1>
-        <p style={{ color: "#6B7280", marginTop: 6, fontSize: 14 }}>Suivi des exports PDF et Word</p>
+        <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--primary)", margin: 0 }}>Documents exportés</h1>
+        <p style={{ color: "var(--text-muted)", marginTop: 6, fontSize: 14 }}>Suivi des exports PDF et Word</p>
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, marginBottom: 28 }}>
@@ -47,20 +47,20 @@ export default async function AdminDocumentsPage() {
           { label: "Word générés", value: withDocx, color: "#2563EB", icon: "📝" },
           { label: "Les deux formats", value: withBoth, color: "#059669", icon: "✅" },
         ].map((s) => (
-          <div key={s.label} style={{ background: "#fff", borderRadius: 10, padding: 20, border: "1px solid #E5E7EB", borderTop: `3px solid ${s.color}` }}>
+          <div key={s.label} style={{ background: "var(--surface)", borderRadius: 10, padding: 20, border: "1px solid var(--border)", borderTop: `3px solid ${s.color}` }}>
             <div style={{ fontSize: 24, marginBottom: 8 }}>{s.icon}</div>
-            <div style={{ fontSize: 28, fontWeight: 700, color: "#111827" }}>{s.value}</div>
-            <div style={{ fontSize: 12, color: "#6B7280", marginTop: 2 }}>{s.label}</div>
+            <div style={{ fontSize: 28, fontWeight: 700, color: "var(--text)" }}>{s.value}</div>
+            <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>{s.label}</div>
           </div>
         ))}
       </div>
 
-      <div style={{ background: "#fff", borderRadius: 12, border: "1px solid #E5E7EB", overflow: "hidden" }}>
+      <div style={{ background: "var(--surface)", borderRadius: 12, border: "1px solid var(--border)", overflow: "hidden" }}>
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
           <thead>
             <tr style={{ background: "#F9FAFB" }}>
               {["Plan", "Utilisateur", "PDF", "Word", "Date"].map((h) => (
-                <th key={h} style={{ padding: "12px 16px", textAlign: "left", fontSize: 12, fontWeight: 600, color: "#6B7280", textTransform: "uppercase", borderBottom: "1px solid #E5E7EB" }}>
+                <th key={h} style={{ padding: "12px 16px", textAlign: "left", fontSize: 12, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase", borderBottom: "1px solid var(--border)" }}>
                   {h}
                 </th>
               ))}
@@ -68,16 +68,16 @@ export default async function AdminDocumentsPage() {
           </thead>
           <tbody>
             {recentExports.map((p: { id: string; title: string; pdfUrl: string | null; docxUrl: string | null; updatedAt: Date; user: { email: string; name: string | null } }) => (
-              <tr key={p.id} style={{ borderBottom: "1px solid #F3F4F6" }}>
-                <td style={{ padding: "12px 16px", fontSize: 13, fontWeight: 500, color: "#111827" }}>{p.title}</td>
-                <td style={{ padding: "12px 16px", fontSize: 12, color: "#6B7280" }}>{p.user.email}</td>
+              <tr key={p.id} style={{ borderBottom: "1px solid var(--border-light)" }}>
+                <td style={{ padding: "12px 16px", fontSize: 13, fontWeight: 500, color: "var(--text)" }}>{p.title}</td>
+                <td style={{ padding: "12px 16px", fontSize: 12, color: "var(--text-muted)" }}>{p.user.email}</td>
                 <td style={{ padding: "12px 16px" }}>
                   {p.pdfUrl ? <span style={{ color: "#059669", fontWeight: 600, fontSize: 12 }}>✓</span> : <span style={{ color: "#D1D5DB", fontSize: 12 }}>—</span>}
                 </td>
                 <td style={{ padding: "12px 16px" }}>
                   {p.docxUrl ? <span style={{ color: "#2563EB", fontWeight: 600, fontSize: 12 }}>✓</span> : <span style={{ color: "#D1D5DB", fontSize: 12 }}>—</span>}
                 </td>
-                <td style={{ padding: "12px 16px", fontSize: 12, color: "#6B7280" }}>
+                <td style={{ padding: "12px 16px", fontSize: 12, color: "var(--text-muted)" }}>
                   {new Intl.DateTimeFormat("fr-CA", { day: "2-digit", month: "short" }).format(new Date(p.updatedAt))}
                 </td>
               </tr>
@@ -85,7 +85,7 @@ export default async function AdminDocumentsPage() {
           </tbody>
         </table>
         {recentExports.length === 0 && (
-          <div style={{ textAlign: "center", padding: 40, color: "#9CA3AF", fontSize: 14 }}>Aucun export pour l&apos;instant</div>
+          <div style={{ textAlign: "center", padding: 40, color: "var(--text-muted)", fontSize: 14 }}>Aucun export pour l&apos;instant</div>
         )}
       </div>
     </div>

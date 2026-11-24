@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import StartPlanButton from "@/components/dashboard/StartPlanButton";
+import MobileNav from "@/components/layout/MobileNav";
 
 const steps = [
   { num: 1, title: "Identification", icon: "👤", desc: "Connexion sécurisée" },
@@ -66,6 +67,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="dashboard-shell" style={{ minHeight: "100vh", display: "flex" }}>
+      <MobileNav />
 
       {/* SIDEBAR */}
       <aside className="dashboard-sidebar" style={{
@@ -262,7 +264,7 @@ export default async function DashboardPage() {
               { label: "Export", value: "499 $ CAD", color: "var(--accent, #D6A84F)", bg: "var(--accent-muted, #fdf5e6)", icon: "📄" },
             ].map((stat) => (
               <div key={stat.label} style={{
-                background: "white",
+                background: "var(--surface)",
                 borderRadius: "0.875rem",
                 padding: "1.25rem",
                 border: "1px solid var(--border, #d6e0dc)",
@@ -287,7 +289,7 @@ export default async function DashboardPage() {
 
           {/* Plan card */}
           <div style={{
-            background: "white",
+            background: "var(--surface)",
             borderRadius: "1.25rem",
             border: "1px solid var(--border, #d6e0dc)",
             overflow: "hidden",

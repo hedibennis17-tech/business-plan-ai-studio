@@ -33,7 +33,7 @@ export default async function BillingPage() {
   const firstPlan = plans[0];
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", background: "#F7F8F6" }}>
+    <div style={{ minHeight: "100vh", display: "flex", background: "var(--bg)" }}>
       <DashboardSidebar planHref={firstPlan ? `/plan/${firstPlan.id}` : undefined} />
       <main style={{ flex: 1, padding: "2rem", overflowY: "auto" }}>
         <div style={{ maxWidth: 800, margin: "0 auto" }}>

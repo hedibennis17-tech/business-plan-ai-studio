@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { isAdminRole } from "@/lib/admin/rbac";
 import AdminSidebar from "@/components/admin/AdminSidebar";
+import MobileNav from "@/components/layout/MobileNav";
 
 
 export default async function AdminLayout({
@@ -25,6 +26,7 @@ export default async function AdminLayout({
 
   return (
     <div className="dashboard-shell" style={{ display: "flex", minHeight: "100vh" }}>
+      <MobileNav admin />
       <AdminSidebar userRole={role} userEmail={session.user.email ?? ""} userName={session.user.name ?? ""} />
       <main className="admin-main dashboard-main" style={{ flex: 1, overflow: "auto" }}>
         {children}

@@ -105,7 +105,7 @@ export default async function DocumentsPage() {
 
       {/* MAIN */}
       <div style={{ marginLeft: "240px", flex: 1, display: "flex", flexDirection: "column" }}>
-        <header style={{ background: "white", borderBottom: "1px solid var(--border, #d6e0dc)", padding: "0 2rem", position: "sticky", top: 0, zIndex: 30 }}>
+        <header style={{ background: "var(--surface)", borderBottom: "1px solid var(--border, #d6e0dc)", padding: "0 2rem", position: "sticky", top: 0, zIndex: 30 }}>
           <div style={{ height: "4rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div>
               <div style={{ fontWeight: 800, fontSize: "1.05rem", color: "var(--text, #182522)" }}>Documents</div>
@@ -132,7 +132,7 @@ export default async function DocumentsPage() {
 
           {generatedPlans.length === 0 ? (
             <div style={{
-              background: "white", borderRadius: "1.25rem",
+              background: "var(--surface)", borderRadius: "1.25rem",
               border: "1px solid var(--border, #d6e0dc)",
               padding: "3rem 2rem", textAlign: "center",
             }}>
@@ -156,7 +156,7 @@ export default async function DocumentsPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
               {generatedPlans.map((plan: Plan) => (
                 <div key={plan.id} style={{
-                  background: "white", borderRadius: "1rem",
+                  background: "var(--surface)", borderRadius: "1rem",
                   border: "1px solid var(--border, #d6e0dc)",
                   padding: "1.5rem",
                   boxShadow: "0 1px 4px rgba(23,63,53,0.05)",
@@ -227,7 +227,7 @@ export default async function DocumentsPage() {
               <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
                 {plans.filter((p: Plan) => p.generationStatus !== "GENERATED").map((plan: Plan) => (
                   <div key={plan.id} style={{
-                    background: "white", borderRadius: "0.875rem",
+                    background: "var(--surface)", borderRadius: "0.875rem",
                     border: "1px solid var(--border, #d6e0dc)",
                     padding: "1.25rem",
                     display: "flex", justifyContent: "space-between", alignItems: "center",

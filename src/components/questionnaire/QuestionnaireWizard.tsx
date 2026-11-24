@@ -184,7 +184,7 @@ export default function QuestionnaireWizard({ initialPlan }: Props) {
                 justifyContent: "center",
                 fontSize: 18,
                 fontWeight: 700,
-                color: "#173F35",
+                color: "var(--primary)",
                 flexShrink: 0,
               }}
             >
@@ -355,8 +355,8 @@ export default function QuestionnaireWizard({ initialPlan }: Props) {
         {/* Header mobile / top bar */}
         <header
           style={{
-            background: "white",
-            borderBottom: "1px solid #E5E7EB",
+            background: "var(--surface)",
+            borderBottom: "1px solid var(--border)",
             padding: "12px 20px",
             display: "flex",
             alignItems: "center",
@@ -391,7 +391,7 @@ export default function QuestionnaireWizard({ initialPlan }: Props) {
             <span
               style={{
                 fontSize: 12,
-                color: "#6B7280",
+                color: "var(--text-muted)",
                 flexShrink: 0,
               }}
             >
@@ -402,7 +402,7 @@ export default function QuestionnaireWizard({ initialPlan }: Props) {
               style={{
                 fontSize: 14,
                 fontWeight: 600,
-                color: "#173F35",
+                color: "var(--primary)",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
@@ -432,9 +432,9 @@ export default function QuestionnaireWizard({ initialPlan }: Props) {
           {/* Carte du formulaire */}
           <div
             style={{
-              background: "white",
+              background: "var(--surface)",
               borderRadius: 20,
-              border: "1px solid #E5E7EB",
+              border: "1px solid var(--border)",
               padding: "32px",
               marginBottom: 24,
               boxShadow: "0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(23,63,53,0.04)",
@@ -479,7 +479,7 @@ export default function QuestionnaireWizard({ initialPlan }: Props) {
                 padding: "10px 20px",
                 borderRadius: 12,
                 border: "1px solid #D1D5DB",
-                background: "white",
+                background: "var(--surface)",
                 color: currentStep === 1 || isSaving ? "#D1D5DB" : "#374151",
                 fontSize: 14,
                 fontWeight: 500,
@@ -490,7 +490,7 @@ export default function QuestionnaireWizard({ initialPlan }: Props) {
               ← Précédent
             </button>
 
-            <span style={{ fontSize: 13, color: "#9CA3AF" }}>
+            <span style={{ fontSize: 13, color: "var(--text-muted)" }}>
               {isSaving ? "Sauvegarde…" : `${plan.completedSteps.length}/10 complétées`}
             </span>
 
@@ -507,7 +507,7 @@ export default function QuestionnaireWizard({ initialPlan }: Props) {
                   borderRadius: 12,
                   border: "none",
                   background: "var(--accent, #D6A84F)",
-                  color: "#173F35",
+                  color: "var(--primary)",
                   fontSize: 14,
                   fontWeight: 700,
                   cursor: isSaving ? "not-allowed" : "pointer",

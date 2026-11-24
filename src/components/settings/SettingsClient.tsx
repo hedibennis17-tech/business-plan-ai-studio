@@ -82,7 +82,7 @@ export default function SettingsClient({ initialName, email, hasPassword, isGoog
   const inputStyle: React.CSSProperties = {
     width: "100%", padding: "0.75rem 1rem", borderRadius: "0.5rem",
     border: "1.5px solid var(--border, #d6e0dc)",
-    background: "white", fontSize: "0.9rem", color: "var(--text, #182522)",
+    background: "var(--surface)", fontSize: "0.9rem", color: "var(--text, #182522)",
     outline: "none", boxSizing: "border-box",
   };
 
@@ -96,7 +96,7 @@ export default function SettingsClient({ initialName, email, hasPassword, isGoog
     <>
       {/* === PROFIL === */}
       <div style={{
-        background: "white", borderRadius: "1rem",
+        background: "var(--surface)", borderRadius: "1rem",
         border: "1px solid var(--border, #d6e0dc)", overflow: "hidden",
         marginBottom: "1.25rem", boxShadow: "0 1px 4px rgba(23,63,53,0.05)",
       }}>
@@ -153,7 +153,7 @@ export default function SettingsClient({ initialName, email, hasPassword, isGoog
 
       {/* === MOT DE PASSE === */}
       <div style={{
-        background: "white", borderRadius: "1rem",
+        background: "var(--surface)", borderRadius: "1rem",
         border: "1px solid var(--border, #d6e0dc)", overflow: "hidden",
         marginBottom: "1.25rem", boxShadow: "0 1px 4px rgba(23,63,53,0.05)",
       }}>

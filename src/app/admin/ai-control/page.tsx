@@ -53,10 +53,10 @@ export default async function AdminAIControlPage() {
   return (
     <div style={{ padding: 32, maxWidth: 1100 }}>
       <div style={{ marginBottom: 24 }}>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "#173F35", margin: 0 }}>
+        <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--primary)", margin: 0 }}>
           Contrôle IA
         </h1>
-        <p style={{ color: "#6B7280", marginTop: 6, fontSize: 14 }}>
+        <p style={{ color: "var(--text-muted)", marginTop: 6, fontSize: 14 }}>
           Suivi des générations Claude AI
         </p>
       </div>
@@ -64,7 +64,7 @@ export default async function AdminAIControlPage() {
       {/* KPIs IA */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 16, marginBottom: 28 }}>
         {[
-          { label: "Total générations", value: totalGenerations, color: "#173F35", icon: "🤖" },
+          { label: "Total générations", value: totalGenerations, color: "var(--primary)", icon: "🤖" },
           { label: "Réussies", value: successfulGenerations, color: "#059669", icon: "✅" },
           { label: "Échouées", value: failedGenerations, color: "#DC2626", icon: "❌" },
           { label: "En cours", value: generatingNow, color: "#D97706", icon: "⚡" },
@@ -73,16 +73,16 @@ export default async function AdminAIControlPage() {
           <div
             key={kpi.label}
             style={{
-              background: "#fff",
+              background: "var(--surface)",
               borderRadius: 10,
               padding: 16,
-              border: "1px solid #E5E7EB",
+              border: "1px solid var(--border)",
               borderTop: `3px solid ${kpi.color}`,
             }}
           >
             <div style={{ fontSize: 20, marginBottom: 8 }}>{kpi.icon}</div>
-            <div style={{ fontSize: 24, fontWeight: 700, color: "#111827" }}>{kpi.value}</div>
-            <div style={{ fontSize: 12, color: "#6B7280", marginTop: 2 }}>{kpi.label}</div>
+            <div style={{ fontSize: 24, fontWeight: 700, color: "var(--text)" }}>{kpi.value}</div>
+            <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>{kpi.label}</div>
           </div>
         ))}
       </div>
@@ -110,12 +110,12 @@ export default async function AdminAIControlPage() {
       </div>
 
       {/* Générations échouées récentes */}
-      <div style={{ background: "#fff", borderRadius: 12, border: "1px solid #E5E7EB", padding: 20, marginBottom: 24 }}>
-        <h2 style={{ fontSize: 15, fontWeight: 600, color: "#173F35", margin: "0 0 16px" }}>
+      <div style={{ background: "var(--surface)", borderRadius: 12, border: "1px solid var(--border)", padding: 20, marginBottom: 24 }}>
+        <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--primary)", margin: "0 0 16px" }}>
           Échecs récents ({recentFailed.length})
         </h2>
         {recentFailed.length === 0 ? (
-          <p style={{ color: "#6B7280", fontSize: 13 }}>Aucun échec récent 🎉</p>
+          <p style={{ color: "var(--text-muted)", fontSize: 13 }}>Aucun échec récent 🎉</p>
         ) : (
           recentFailed.map((plan: { id: string; title: string; generationError: string | null; updatedAt: Date; user: { email: string } }) => (
             <div
@@ -127,12 +127,12 @@ export default async function AdminAIControlPage() {
               }}
             >
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                <span style={{ fontSize: 13, fontWeight: 500, color: "#111827" }}>{plan.title}</span>
-                <span style={{ fontSize: 11, color: "#9CA3AF" }}>
+                <span style={{ fontSize: 13, fontWeight: 500, color: "var(--text)" }}>{plan.title}</span>
+                <span style={{ fontSize: 11, color: "var(--text-muted)" }}>
                   {new Intl.DateTimeFormat("fr-CA", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" }).format(new Date(plan.updatedAt))}
                 </span>
               </div>
-              <div style={{ fontSize: 12, color: "#6B7280" }}>{plan.user.email}</div>
+              <div style={{ fontSize: 12, color: "var(--text-muted)" }}>{plan.user.email}</div>
               {plan.generationError && (
                 <div
                   style={{

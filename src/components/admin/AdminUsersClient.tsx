@@ -93,7 +93,7 @@ export default function AdminUsersClient({
             border: "1px solid #D1D5DB",
             borderRadius: 8,
             fontSize: 13,
-            background: "#fff",
+            background: "var(--surface)",
           }}
         >
           <option value="">Tous les rôles</option>
@@ -137,9 +137,9 @@ export default function AdminUsersClient({
       {/* Table */}
       <div
         style={{
-          background: "#fff",
+          background: "var(--surface)",
           borderRadius: 12,
-          border: "1px solid #E5E7EB",
+          border: "1px solid var(--border)",
           overflow: "hidden",
         }}
       >
@@ -154,10 +154,10 @@ export default function AdminUsersClient({
                     textAlign: "left",
                     fontSize: 12,
                     fontWeight: 600,
-                    color: "#6B7280",
+                    color: "var(--text-muted)",
                     textTransform: "uppercase",
                     letterSpacing: "0.05em",
-                    borderBottom: "1px solid #E5E7EB",
+                    borderBottom: "1px solid var(--border)",
                   }}
                 >
                   {h}
@@ -167,12 +167,12 @@ export default function AdminUsersClient({
           </thead>
           <tbody>
             {users.map((user) => (
-              <tr key={user.id} style={{ borderBottom: "1px solid #F3F4F6" }}>
+              <tr key={user.id} style={{ borderBottom: "1px solid var(--border-light)" }}>
                 <td style={{ padding: "14px 16px" }}>
-                  <div style={{ fontSize: 13, fontWeight: 500, color: "#111827" }}>
+                  <div style={{ fontSize: 13, fontWeight: 500, color: "var(--text)" }}>
                     {user.name || "(sans nom)"}
                   </div>
-                  <div style={{ fontSize: 12, color: "#6B7280" }}>{user.email}</div>
+                  <div style={{ fontSize: 12, color: "var(--text-muted)" }}>{user.email}</div>
                 </td>
                 <td style={{ padding: "14px 16px" }}>
                   {canChangeRole ? (
@@ -187,7 +187,7 @@ export default function AdminUsersClient({
                         fontSize: 12,
                         color: ROLE_COLORS[user.role] ?? "#374151",
                         fontWeight: 600,
-                        background: "#fff",
+                        background: "var(--surface)",
                         cursor: "pointer",
                       }}
                     >
@@ -213,10 +213,10 @@ export default function AdminUsersClient({
                     </span>
                   )}
                 </td>
-                <td style={{ padding: "14px 16px", fontSize: 13, color: "#374151" }}>
+                <td style={{ padding: "14px 16px", fontSize: 13, color: "var(--text-secondary)" }}>
                   {user.planCount}
                 </td>
-                <td style={{ padding: "14px 16px", fontSize: 12, color: "#6B7280" }}>
+                <td style={{ padding: "14px 16px", fontSize: 12, color: "var(--text-muted)" }}>
                   {new Intl.DateTimeFormat("fr-CA", {
                     day: "2-digit",
                     month: "short",
@@ -238,7 +238,7 @@ export default function AdminUsersClient({
                 </td>
                 <td style={{ padding: "14px 16px" }}>
                   {loading === user.id && (
-                    <span style={{ fontSize: 12, color: "#6B7280" }}>Mise à jour...</span>
+                    <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Mise à jour...</span>
                   )}
                 </td>
               </tr>
@@ -247,7 +247,7 @@ export default function AdminUsersClient({
         </table>
 
         {users.length === 0 && (
-          <div style={{ textAlign: "center", padding: 40, color: "#9CA3AF", fontSize: 14 }}>
+          <div style={{ textAlign: "center", padding: 40, color: "var(--text-muted)", fontSize: 14 }}>
             Aucun utilisateur trouvé
           </div>
         )}

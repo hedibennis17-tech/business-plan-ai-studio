@@ -15,12 +15,12 @@ export default function SaveIndicator({ status }: Props) {
         </svg>
       ),
       text: "Sauvegarde…",
-      color: "#9CA3AF",
+      color: "var(--text-muted)",
     },
     saved: {
       icon: <span style={{ fontSize: 11 }}>✓</span>,
       text: "Sauvegardé",
-      color: "#173F35",
+      color: "var(--primary)",
     },
     error: {
       icon: <span style={{ fontSize: 11 }}>⚠</span>,

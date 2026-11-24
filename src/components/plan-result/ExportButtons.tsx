@@ -108,7 +108,7 @@ export default function ExportButtons({ planId }: ExportButtonsProps) {
             alignItems: "center",
             gap: "0.5rem",
             padding: "0.6rem 1.25rem",
-            background: "white",
+            background: "var(--surface)",
             color: "var(--primary, #173F35)",
             border: "1.5px solid var(--border, #d6e0dc)",
             borderRadius: "0.625rem",

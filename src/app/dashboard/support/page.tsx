@@ -28,7 +28,7 @@ export default async function SupportPage() {
   });
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", background: "#F7F8F6" }}>
+    <div style={{ minHeight: "100vh", display: "flex", background: "var(--bg)" }}>
       <DashboardSidebar planHref={firstPlan ? `/plan/${firstPlan.id}` : undefined} />
       <main style={{ flex: 1, padding: "2rem", overflowY: "auto" }}>
         <div style={{ maxWidth: 900, margin: "0 auto" }}>

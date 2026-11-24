@@ -71,9 +71,9 @@ const faqs = [
 
 export default function HomePage() {
   return (
-    <div style={{ minHeight: "100vh", background: "var(--background)" }}>
+    <div className="landing-page" style={{ minHeight: "100vh", background: "var(--bg)" }}>
       {/* NAV */}
-      <nav
+      <nav className="landing-nav"
         style={{
           position: "sticky",
           top: 0,
@@ -149,7 +149,7 @@ export default function HomePage() {
 
       {/* HERO */}
       <section
-        className="gradient-qc"
+        className="gradient-qc landing-hero"
         style={{
           padding: "5.5rem 2rem 5rem",
           textAlign: "center",
@@ -254,7 +254,7 @@ export default function HomePage() {
       {/* STATS BAND */}
       <section
         style={{
-          background: "white",
+          background: "var(--surface)",
           borderBottom: "1px solid var(--border)",
           padding: "1.75rem 2rem",
         }}
@@ -348,7 +348,7 @@ export default function HomePage() {
       </section>
 
       {/* FONCTIONNALITÉS */}
-      <section id="fonctionnalites" style={{ padding: "5.5rem 2rem", background: "white" }}>
+      <section id="fonctionnalites" style={{ padding: "5.5rem 2rem", background: "var(--surface)" }}>
         <div style={{ maxWidth: "1140px", margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
             <div className="qc-accent-line" style={{ justifyContent: "center", marginBottom: "0.875rem" }}>
@@ -494,7 +494,7 @@ export default function HomePage() {
               <div
                 key={faq.q}
                 style={{
-                  background: "white",
+                  background: "var(--surface)",
                   borderRadius: "0.875rem",
                   padding: "1.5rem",
                   border: "1px solid var(--border)",
@@ -516,7 +516,7 @@ export default function HomePage() {
       {/* CTA FINAL */}
       <section style={{
         padding: "5rem 2rem",
-        background: "white",
+        background: "var(--surface)",
         textAlign: "center",
         borderTop: "1px solid var(--border)",
       }}>
@@ -542,7 +542,7 @@ export default function HomePage() {
       </section>
 
       {/* FOOTER */}
-      <footer
+      <footer className="landing-footer"
         style={{
           background: "var(--qc-slate-900)",
           color: "rgba(255,255,255,0.5)",

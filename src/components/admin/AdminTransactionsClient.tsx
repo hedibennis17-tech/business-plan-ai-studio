@@ -94,10 +94,10 @@ export default function AdminTransactionsClient({
     <div style={{ fontFamily: "Inter, sans-serif", color: "#1A1A1A" }}>
       {/* Header */}
       <div style={{ marginBottom: 28 }}>
-        <h1 style={{ fontSize: 24, fontWeight: 700, color: "#173F35", margin: 0 }}>
+        <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--primary)", margin: 0 }}>
           💳 Transactions & Paiements
         </h1>
-        <p style={{ color: "#6B7280", fontSize: 14, margin: "4px 0 0" }}>
+        <p style={{ color: "var(--text-muted)", fontSize: 14, margin: "4px 0 0" }}>
           Historique complet des paiements Stripe
         </p>
       </div>
@@ -128,8 +128,8 @@ export default function AdminTransactionsClient({
       {/* Filtres */}
       <div
         style={{
-          background: "#fff",
-          border: "1px solid #E5E7EB",
+          background: "var(--surface)",
+          border: "1px solid var(--border)",
           borderRadius: 10,
           padding: "16px 20px",
           marginBottom: 20,
@@ -175,14 +175,14 @@ export default function AdminTransactionsClient({
             </button>
           ))}
         </div>
-        {isPending && <span style={{ fontSize: 12, color: "#9CA3AF" }}>Chargement...</span>}
+        {isPending && <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Chargement...</span>}
       </div>
 
       {/* Table */}
       <div
         style={{
-          background: "#fff",
-          border: "1px solid #E5E7EB",
+          background: "var(--surface)",
+          border: "1px solid var(--border)",
           borderRadius: 10,
           overflow: "hidden",
         }}
@@ -190,11 +190,11 @@ export default function AdminTransactionsClient({
         <div style={{ overflowX: "auto" }}>
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
-              <tr style={{ background: "#F9FAFB", borderBottom: "1px solid #E5E7EB" }}>
+              <tr style={{ background: "#F9FAFB", borderBottom: "1px solid var(--border)" }}>
                 {["Date", "Client", "Plan", "Session Stripe", "Montant", "Statut"].map((h) => (
                   <th
                     key={h}
-                    style={{ padding: "12px 16px", textAlign: "left", fontWeight: 600, color: "#6B7280", fontSize: 12 }}
+                    style={{ padding: "12px 16px", textAlign: "left", fontWeight: 600, color: "var(--text-muted)", fontSize: 12 }}
                   >
                     {h}
                   </th>
@@ -204,7 +204,7 @@ export default function AdminTransactionsClient({
             <tbody>
               {payments.length === 0 ? (
                 <tr>
-                  <td colSpan={6} style={{ padding: 40, textAlign: "center", color: "#9CA3AF" }}>
+                  <td colSpan={6} style={{ padding: 40, textAlign: "center", color: "var(--text-muted)" }}>
                     Aucune transaction trouvée
                   </td>
                 </tr>
@@ -219,16 +219,16 @@ export default function AdminTransactionsClient({
                         background: i % 2 === 0 ? "#fff" : "#FAFAFA",
                       }}
                     >
-                      <td style={{ padding: "12px 16px", color: "#6B7280", whiteSpace: "nowrap" }}>
+                      <td style={{ padding: "12px 16px", color: "var(--text-muted)", whiteSpace: "nowrap" }}>
                         {fmtDate(p.createdAt)}
                       </td>
                       <td style={{ padding: "12px 16px" }}>
-                        <div style={{ fontWeight: 600, color: "#111827" }}>
+                        <div style={{ fontWeight: 600, color: "var(--text)" }}>
                           {p.user.name ?? "—"}
                         </div>
-                        <div style={{ color: "#6B7280", fontSize: 11 }}>{p.user.email}</div>
+                        <div style={{ color: "var(--text-muted)", fontSize: 11 }}>{p.user.email}</div>
                       </td>
-                      <td style={{ padding: "12px 16px", color: "#374151", maxWidth: 180 }}>
+                      <td style={{ padding: "12px 16px", color: "var(--text-secondary)", maxWidth: 180 }}>
                         <div
                           style={{
                             overflow: "hidden",
@@ -240,10 +240,10 @@ export default function AdminTransactionsClient({
                           {p.planTitle}
                         </div>
                       </td>
-                      <td style={{ padding: "12px 16px", fontFamily: "monospace", fontSize: 11, color: "#9CA3AF" }}>
+                      <td style={{ padding: "12px 16px", fontFamily: "monospace", fontSize: 11, color: "var(--text-muted)" }}>
                         {p.stripeSessionId.slice(0, 20)}...
                       </td>
-                      <td style={{ padding: "12px 16px", fontWeight: 700, color: "#173F35", whiteSpace: "nowrap" }}>
+                      <td style={{ padding: "12px 16px", fontWeight: 700, color: "var(--primary)", whiteSpace: "nowrap" }}>
                         {fmt(p.amount)} {p.currency.toUpperCase()}
                       </td>
                       <td style={{ padding: "12px 16px" }}>
@@ -280,7 +280,7 @@ export default function AdminTransactionsClient({
               alignItems: "center",
             }}
           >
-            <span style={{ fontSize: 13, color: "#6B7280" }}>
+            <span style={{ fontSize: 13, color: "var(--text-muted)" }}>
               {totalFiltered} résultat{totalFiltered !== 1 ? "s" : ""} · page {page}/{totalPages}
             </span>
             <div style={{ display: "flex", gap: 8 }}>
@@ -291,7 +291,7 @@ export default function AdminTransactionsClient({
                     padding: "6px 14px",
                     border: "1px solid #D1D5DB",
                     borderRadius: 6,
-                    background: "#fff",
+                    background: "var(--surface)",
                     cursor: "pointer",
                     fontSize: 13,
                   }}
@@ -306,7 +306,7 @@ export default function AdminTransactionsClient({
                     padding: "6px 14px",
                     border: "1px solid #D1D5DB",
                     borderRadius: 6,
-                    background: "#fff",
+                    background: "var(--surface)",
                     cursor: "pointer",
                     fontSize: 13,
                   }}
@@ -338,8 +338,8 @@ function KPICard({
   return (
     <div
       style={{
-        background: "#fff",
-        border: "1px solid #E5E7EB",
+        background: "var(--surface)",
+        border: "1px solid var(--border)",
         borderRadius: 10,
         padding: "20px 24px",
         display: "flex",
@@ -363,9 +363,9 @@ function KPICard({
         {icon}
       </div>
       <div>
-        <div style={{ fontSize: 12, color: "#6B7280", fontWeight: 500 }}>{label}</div>
+        <div style={{ fontSize: 12, color: "var(--text-muted)", fontWeight: 500 }}>{label}</div>
         <div style={{ fontSize: 22, fontWeight: 700, color, marginTop: 2 }}>{value}</div>
-        {sub && <div style={{ fontSize: 11, color: "#9CA3AF", marginTop: 2 }}>{sub}</div>}
+        {sub && <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 2 }}>{sub}</div>}
       </div>
     </div>
   );

@@ -178,7 +178,7 @@ export default async function PlanResultPage({ params }: Props) {
 
         {/* Top bar */}
         <header style={{
-          background: "white",
+          background: "var(--surface)",
           borderBottom: "1px solid var(--border, #d6e0dc)",
           padding: "0 2rem",
           position: "sticky", top: 0, zIndex: 30,
@@ -210,7 +210,7 @@ export default async function PlanResultPage({ params }: Props) {
                     textDecoration: "none",
                     fontSize: "0.8rem",
                     fontWeight: 600,
-                    background: "white",
+                    background: "var(--surface)",
                   }}
                 >
                   ✏️ Modifier
@@ -267,7 +267,7 @@ export default async function PlanResultPage({ params }: Props) {
           {/* Not generated state */}
           {!hasGenerated && !isGenerating && (
             <div style={{
-              background: "white",
+              background: "var(--surface)",
               borderRadius: "1.25rem",
               border: "1px solid var(--border, #d6e0dc)",
               padding: "2rem",
@@ -328,7 +328,7 @@ export default async function PlanResultPage({ params }: Props) {
                 gap: "1rem",
                 alignItems: "center",
                 justifyContent: "space-between",
-                background: "white",
+                background: "var(--surface)",
                 border: "1px solid var(--border, #d6e0dc)",
                 borderRadius: "1rem",
                 padding: "1rem 1.5rem",
